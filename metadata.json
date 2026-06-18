@@ -1,0 +1,10 @@
+{
+  "name": "Prépa Concours",
+  "description": "Assistant de révision interactif pour les élèves de Terminale (Mathématiques et Physique) préparant leurs concours d'entrée.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

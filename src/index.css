@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  .theme-light {
+    --color-gray-950: #f8fafc;
+    --color-gray-900: #ffffff;
+    --color-gray-800: #f1f5f9;
+    --color-gray-700: #e2e8f0;
+    --color-gray-600: #cbd5e1;
+    --color-gray-500: #64748b;
+    --color-gray-400: #475569;
+    --color-gray-300: #334155;
+    --color-gray-200: #1e293b;
+    --color-gray-100: #0f172a;
+    --color-gray-50: #020617;
+  }
+  
+  .theme-hc {
+    --color-gray-950: #000000;
+    --color-gray-900: #000000;
+    --color-gray-800: #000000;
+    --color-gray-700: #ffffff;
+    --color-gray-600: #ffffff;
+    --color-gray-500: #ffff00;
+    --color-gray-400: #ffff00;
+    --color-gray-300: #ffff00;
+    --color-gray-200: #ffffff;
+    --color-gray-100: #ffffff;
+    --color-blue-600: #0055ff;
+    --color-blue-500: #2277ff;
+    --color-blue-400: #6699ff;
+    --color-green-400: #00ff00;
+    --color-green-500: #00cc00;
+    --color-red-400: #ff3333;
+    --color-red-500: #cc0000;
+  }
+}
+
+/* Force-hide MathML representations of formulas to entirely prevent word-doubling/stuttering (e.g. ln ln, λ λ) */
+.katex-mathml {
+  display: none !important;
+  speak: none !important;
+}
+
+/* Ensure display mode equations are strictly separated as blocks with adequate vertical spacing to prevent telescoping */
+.katex-display {
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  margin: 1.25rem 0 !important;
+  padding: 0.5rem 0 !important;
+  text-align: center;
+  scrollbar-width: thin;
+}
+
+/* Prevent inline and general KaTeX expressions from breaking layout on responsive screens */
+.katex {
+  white-space: nowrap !important;
+}
+
+span.katex {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  vertical-align: middle;
+  /* Fine scrollbar for mobile */
+  scrollbar-width: none;
+}
+span.katex::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fluid chat bubble support for mobile formulas */
+.prose {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100% !important;
+}
+
+.prose pre {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+
+.prose code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+}
+
+/* Scrollbar personnalisée */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #374151;
+  border-radius: 20px;
+}
+
