@@ -142,3 +142,24 @@ Ce document retrace la traçabilité brute et chirurgicale des interactions maje
 **Assistant** :
 > *[Explication pédagogique et technique confirmant que la politique de sécurité des navigateurs (notamment sous Chrome et Samsung Internet) bloque les téléchargements initiés depuis des iFrames configurées en sandbox sans le jeton explicite 'allow-downloads'. Recommandation directe et guidée d'ouvrir l'application dans un nouvel onglet autonome (hors de l'iFrame de l'aperçu de la console d'IA Studio) afin que les téléchargements de fiches de cours PDF s'exécutent instantanément.]*
 
+---
+
+### [2026-06-18 10:46:16-07:00]
+**Utilisateur** :
+> I noticed that when I register my key and I am working, if I press the key again to open it, I see that my key is no longer registered. Without registering my key again, I cannot use the chatbot.
+> Despite my key being activated, my key being entered, or my key being registered, I cannot use or convince the AI tutor to generate documents.
+> , sur téléphone, je note des redondances dans la dictée vocale. Mais je note pas ce problème lorsque j'utilise un PC.
+
+**Assistant** :
+> *[Correction de l'écran `ApiKeyScreen` : la vue conserve et pré-remplit la clé enregistrée au lieu de l'effacer instantanément au clic. Optimisation du script de transcription de l'API SpeechRecognition en n'accumulant que les nouveaux `resultIndex` pour empêcher l'effet d'écho (texte en double) identifié sous Safari iOS et Chrome Android. Modification du prompt natif dans `gemini.ts` incitant le Tuteur IA à mentionner explicitement aux élèves la commande de téléchargement des PDF.]*
+
+---
+
+### [2026-06-22 17:40:19-07:00]
+**Utilisateur** :
+> Audite l'ensemble de l'application Prépa Concours. Identifie tous les composants qui affichent du contenu généré par l'IA... Le Tuteur IA affiche correctement les formules LaTeX via ReactMarkdown + remark-math + rehype-katex. Je veux que tous les modules utilisent exactement le même pipeline de rendu.
+> je valide alors appliquer les corrections
+
+**Assistant** :
+> *[Réalisation d'un audit des composants asynchrones textuels. Uniformisation complète en ajoutant la classe experte `katex-render-container` autour des composants `<ReactMarkdown>` dans `QCMMode.tsx`, `ExerciseMode.tsx` et `RevisionPanel.tsx`. Cela permet le masquage des noeuds MathML obsolètes, l'application du scroll overflow élastique sur mobile pour les très longues équations et garantit le même rendu impeccable que la balise ChatBot au moment du téléchargement des fiches PDF LaTeX.]*
+

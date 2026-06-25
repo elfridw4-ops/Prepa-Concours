@@ -134,7 +134,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
 
         {/* Question */}
         <div className="p-6 sm:p-8">
-          <h3 className="text-xl sm:text-2xl font-medium text-gray-100 mb-8 leading-relaxed">
+          <h3 className="text-xl sm:text-2xl font-medium text-gray-100 mb-8 leading-relaxed katex-render-container">
             <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{currentQ.question}</ReactMarkdown>
           </h3>
 
@@ -166,7 +166,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
                   className={btnClass}
                 >
                   <div className="flex justify-between items-center w-full">
-                    <div className="flex-1 text-left prose prose-invert prose-sm"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{choice}</ReactMarkdown></div>
+                    <div className="flex-1 text-left prose prose-invert prose-sm katex-render-container"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{choice}</ReactMarkdown></div>
                     {selectedAnswer && isCorrect && <CheckCircle className="text-green-500 ml-2 flex-shrink-0" size={20} />}
                     {selectedAnswer && isSelected && !isCorrect && <XCircle className="text-red-500 ml-2 flex-shrink-0" size={20} />}
                   </div>
@@ -179,7 +179,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
           {selectedAnswer && (
             <div className="mt-8 pt-6 border-t border-gray-800 animate-in fade-in slide-in-from-bottom-2">
               <h4 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Explication</h4>
-              <div className="text-gray-300 leading-relaxed mb-6 prose prose-invert prose-sm max-w-none">
+              <div className="text-gray-300 leading-relaxed mb-6 prose prose-invert prose-sm max-w-none katex-render-container">
                 <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{currentQ.explanation}</ReactMarkdown>
               </div>
               

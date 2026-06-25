@@ -195,6 +195,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen: propIsOpen, onOpen, on
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const baseInputRef = useRef('');
+  const sessionFinalTranscriptRef = useRef('');
 
   useEffect(() => {
     // Initialise SpeechRecognition si supporté
@@ -203,17 +204,25 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen: propIsOpen, onOpen, on
       recognition = new SpeechRecognition();
       recognition.lang = 'fr-FR';
       recognition.interimResults = true;
-      recognition.continuous = true; // Permet de continuer à écouter sans s'arrêter à chaque pause
+      recognition.continuous = true; 
 
       recognition.onresult = (event: any) => {
-        let sessionTranscript = '';
+        let interimTranscript = '';
         
-        for (let i = 0; i < event.results.length; ++i) {
-          sessionTranscript += event.results[i][0].transcript;
+        // On parcourt uniquement les NOUVEAUX résultats depuis le dernier index
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            sessionFinalTranscriptRef.current += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
         }
         
-        // On remplace le texte courant en partant de ce qui était déjà là avant la dictée
-        setInput(baseInputRef.current + (baseInputRef.current && sessionTranscript ? ' ' : '') + sessionTranscript);
+        // Construction du texte final sans redondance
+        const currentSessionText = sessionFinalTranscriptRef.current + interimTranscript;
+        const spacing = (baseInputRef.current && currentSessionText) ? ' ' : '';
+        setInput(baseInputRef.current + spacing + currentSessionText);
       };
 
       recognition.onend = () => {
@@ -243,6 +252,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen: propIsOpen, onOpen, on
     } else {
       if (recognition) {
         baseInputRef.current = input;
+        sessionFinalTranscriptRef.current = '';
         recognition.start();
         setIsListening(true);
       } else {
@@ -271,7 +281,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen: propIsOpen, onOpen, on
     if (isOpen && !globalChatSession) {
       try {
         globalChatSession = new ChatSession();
-        setMessages([{ role: 'model', text: 'Bonjour ! Je suis ton tuteur IA pour la Terminale D/C. As-tu une question sur le cours de maths ou de physique ?' }]);
+        setMessages([{ role: 'model', text: 'Bonjour ! Je suis ton tuteur IA pour la Terminale D/C. As-tu une question sur le cours de maths ou de physique ? Tu peux aussi me demander une fiche de synthèse et la télécharger en PDF via le bouton ci-dessous.' }]);
       } catch (e) {
         console.error("Erreur d'init Chat:", e);
       }

@@ -65,7 +65,7 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
               {/* Enoncé */}
               <div>
                 <h3 className="text-lg font-bold text-gray-100 mb-4 border-b border-gray-800 pb-2">Énoncé</h3>
-                <div className="prose prose-invert prose-blue max-w-none text-gray-300">
+                <div className="prose prose-invert prose-blue max-w-none text-gray-300 katex-render-container">
                   <ReactMarkdown 
                     remarkPlugins={[remarkMath]} 
                     rehypePlugins={[rehypeKatex]}
@@ -91,7 +91,7 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
                   <h3 className="text-lg font-bold text-green-400 mb-4 pb-2 border-b border-gray-800 inline-flex">
                     Correction
                   </h3>
-                  <div className="prose prose-invert prose-green max-w-none text-gray-300 bg-green-500/5 border border-green-500/20 rounded-xl p-6">
+                  <div className="prose prose-invert prose-green max-w-none text-gray-300 bg-green-500/5 border border-green-500/20 rounded-xl p-6 katex-render-container">
                     <ReactMarkdown 
                       remarkPlugins={[remarkMath]} 
                       rehypePlugins={[rehypeKatex]}

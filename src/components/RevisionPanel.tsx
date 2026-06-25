@@ -65,7 +65,7 @@ export const RevisionPanel: React.FC<RevisionPanelProps> = ({ chapter, onClose }
               {error}
             </div>
           ) : (
-            <div className="prose prose-invert prose-blue max-w-none">
+            <div className="prose prose-invert prose-blue max-w-none katex-render-container">
               {/* ReactMarkdown gère l'affichage du markdown de Gemini */}
               <ReactMarkdown 
                 remarkPlugins={[remarkMath]} 
