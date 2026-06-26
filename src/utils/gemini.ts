@@ -12,6 +12,20 @@ const getGenAIClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
+// Règles strictes de rendu LaTeX pour l'IA
+const LATEX_RULES = `
+RÈGLES DE RENDU MATHÉMATIQUE (LaTeX OBLIGATOIRE) :
+- TOUTES les expressions mathématiques, équations, fonctions, formules, variables isolées (ex: x, t, y, f(x)), et symboles doivent être écrits en LaTeX.
+- Pour les formules ou expressions intégrées au texte (en ligne), utilise impérativement un seul dollar : $expression$ (ex: $5x^2 + 3x$ ou la variable $t$).
+- Pour les équations complexes, les fractions, ou les formules importantes, utilise des doubles dollars sur leur propre ligne :
+$$
+\\frac{15t^2+200}{3t^2+t+5}
+$$
+- Ne jamais écrire d'expressions mathématiques en texte brut ou de manière simplifiée comme "(15t^2+200)/(3t^2+t+5)". Utilise toujours la notation LaTeX exacte (ex: \\frac{15t^2+200}{3t^2+t+5}).
+- N'utilise jamais d'Unicode ou de caractères simples de clavier pour les exposants (n'écris jamais x² mais $x^2$), indices, fractions, racines, intégrales, limites, ou lettres grecques. Représente-les TOUJOURS par leur commande LaTeX correspondante (ex: \\sqrt{x}, \\alpha, \\beta, \\Delta, \\lim_{x \\to 0}).
+- Assure-toi que chaque balise de dollar ou double dollar ouverte est fermée correctement.
+`;
+
 // Génère une fiche de cours structurée
 export const generateRevisionSheet = async (subject: string, chapterTitle: string): Promise<string> => {
   const ai = getGenAIClient();
@@ -35,6 +49,9 @@ La fiche doit contenir :
 5. Les erreurs classiques à éviter
 6. Un rappel des points les plus souvent évalués aux examens béninois et régionaux
 ${mathRules}
+
+${LATEX_RULES}
+
 Utilise un langage clair, adapté à un élève de Terminale. Formate avec des titres, sous-titres et listes en Markdown.`;
 
   const response = await ai.models.generateContent({
@@ -65,7 +82,9 @@ Pour chaque question :
 - Énoncé clair
 - EXACTEMENT 4 choix de réponse qui commencent par A., B., C., D. (ex: "A. 42")
 - Indique la bonne réponse (juste la lettre A, B, C ou D)
-- Une explication courte de la réponse correcte. ${mathRules}`;
+- Une explication courte de la réponse correcte. ${mathRules}
+
+${LATEX_RULES}`;
 
   try {
     const response = await ai.models.generateContent({
@@ -116,6 +135,9 @@ Lors de la rédaction de la correction pour cet exercice de mathématiques, tu d
 Génère un exercice de difficulté progressive sur le chapitre : ${chapterTitle}. Intègre des éléments pertinents du contexte africain dans l'énoncé si possible (ex: agriculture, économie locale, géographie).
 L'exercice doit avoir 3 parties (questions a, b, c de difficulté croissante).
 Retourne l'exercice, puis sur une nouvelle ligne écris strictement "---CORRECTION---", puis fournis la correction complète étape par étape de l'exercice. ${mathRules}
+
+${LATEX_RULES}
+
 Format général en Markdown.`;
 
   const response = await ai.models.generateContent({
@@ -149,13 +171,15 @@ Tu aides l'élève à comprendre les concepts, corriger ses erreurs, et se prép
 Tu réponds toujours en français, avec des exemples concrets du programme et des réalités africaines.
 IMPORTANT : Ne sois pas formel. Ne perds pas de temps avec des salutations ou des formules de politesse du type "Bonjour", "Comment puis-je vous aider", "Voici la réponse", etc. Va directement droit au but et donne la réponse ou l'explication directement.
 
-Si l'étudiant te pose une question de Mathématiques ou te demande de résoudre un exercice de Mathématiques :
+Si l'étudiant te pose une question de Mathématiques ou de Physique, ou te demande de résoudre un exercice :
 - Montre TOUTES les étapes en détail.
 - Pour chaque étape : Explique ce qui est fait ET pourquoi.
 - Ne saute jamais d'étapes.
 - Utilise une structure claire : Étape 1, Étape 2, Étape 3, etc.
 - Ajoute une étape de vérification finale.
 - Utilise un langage simple d'abord, puis des explications plus avancées.
+
+${LATEX_RULES}
 
 TU PEUX GÉNÉRER DES FICHES PDF : Si l'utilisateur te demande un résumé ou un document PDF de tes explications, informe-le qu'il peut cliquer sur le bouton "Télécharger PDF" qui apparaît directement en bas de chacune de tes réponses dans l'interface de chat pour obtenir une fiche de révision haute qualité.
 

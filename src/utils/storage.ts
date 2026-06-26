@@ -10,14 +10,26 @@ const PROGRESS_STORAGE_KEY = 'app_progress';
 
 // --- API Key Management ---
 
+// Nettoie la clé API pour éviter les caractères invalides (ex: guillemets intelligents, espaces insécables)
+export const cleanApiKey = (key: string): string => {
+  if (!key) return '';
+  let clean = key.trim();
+  // Supprimer les guillemets simples/doubles ordinaires ou intelligents au début/fin
+  clean = clean.replace(/^['"“‘\s]+|['"”’\s]+$/g, '');
+  // Filtrer pour ne garder que les caractères ASCII imprimables (évite les erreurs ISO-8859-1 de Headers)
+  clean = clean.replace(/[^\x20-\x7E]/g, '');
+  return clean.trim();
+};
+
 // Sauvegarde la clé API dans le localStorage
 export const saveApiKey = (key: string) => {
-  localStorage.setItem(API_KEY_STORAGE_KEY, key);
+  localStorage.setItem(API_KEY_STORAGE_KEY, cleanApiKey(key));
 };
 
 // Récupère la clé API depuis le localStorage
 export const getApiKey = (): string | null => {
-  return localStorage.getItem(API_KEY_STORAGE_KEY);
+  const key = localStorage.getItem(API_KEY_STORAGE_KEY);
+  return key ? cleanApiKey(key) : null;
 };
 
 // Supprime la clé API

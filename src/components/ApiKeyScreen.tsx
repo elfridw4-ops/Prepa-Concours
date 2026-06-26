@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Key, Trash2, XCircle, CheckCircle } from 'lucide-react';
-import { saveApiKey, getApiKey, clearApiKey } from '../utils/storage';
+import { saveApiKey, getApiKey, clearApiKey, cleanApiKey } from '../utils/storage';
 
 export const ApiKeyScreen: React.FC<{ onKeySaved: () => void }> = ({ onKeySaved }) => {
   const existingKey = getApiKey() || '';
@@ -11,12 +11,13 @@ export const ApiKeyScreen: React.FC<{ onKeySaved: () => void }> = ({ onKeySaved 
   // Gère la soumission du formulaire
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!apiKey.trim()) {
+    const cleanedKey = cleanApiKey(apiKey);
+    if (!cleanedKey) {
       setError('Veuillez entrer une clé valide.');
       return;
     }
-    // Sauvegarde la clé via notre utilitaire
-    saveApiKey(apiKey.trim());
+    // Sauvegarde la clé via notre utilitaire (qui va aussi la nettoyer)
+    saveApiKey(cleanedKey);
     setSuccess('Clé enregistrée avec succès !');
     setTimeout(() => {
       // Notifie le parent que la clé est sauvegardée

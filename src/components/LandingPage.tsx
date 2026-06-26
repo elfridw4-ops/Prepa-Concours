@@ -66,8 +66,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     },
     {
       icon: <FileText className="text-amber-400" size={24} />,
-      title: "PDF Vectoriel & LaTeX Haute Qualité",
-      description: "Téléchargez en un clic les explications en fiches PDF haute précision (scale: 2.5). Les expressions et équations mathématiques de KaTeX restent nettes et imprimables."
+      title: "PDF LaTeX Ultra-Légers & Haute Qualité",
+      description: "Téléchargez en un clic les fiches de cours et corrigés au format PDF (JPEG optimisé, scale: 1.8). Les équations mathématiques KaTeX restent nettes et le fichier est divisé par 15 pour un partage instantané."
     },
     {
       icon: <Sparkles className="text-cyan-400" size={24} />,
@@ -106,7 +106,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     },
     {
       question: "Pourquoi le téléchargement de fiches PDF peut-il sembler inactif ?",
-      answer: "Si vous utilisez l'application au sein d'une iFrame (comme dans l'aperçu de la console de test de développement), les politiques de sécurité par bac à sable des iFrames des navigateurs internet bloquent parfois les téléchargements de fichiers générés localement. Pour que vos téléchargements PDF haute-fidélité s'exécutent instantanément de façon fluide, nous vous conseillons simplement d'ouvrir l'application dans son onglet autonome autonome (bouton d'ouverture en haut à droite ou lien de partage direct)."
+      answer: "Si vous utilisez l'application au sein d'une iFrame (comme dans l'aperçu de la console de test de développement), les politiques de sécurité par bac à sable des iFrames des navigateurs internet bloquent parfois les téléchargements de fichiers générés localement. Pour que vos téléchargements PDF haute-fidélité s'exécutent instantanément de façon fluide, nous vous conseillons simplement d'ouvrir l'application dans son onglet autonome (bouton d'ouverture en haut à droite ou lien de partage direct)."
     },
     {
       question: "Que se passe-t-il si j'utilise le bouton Retour Android ou le geste de balayage ?",

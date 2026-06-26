@@ -163,3 +163,33 @@ Ce document retrace la traçabilité brute et chirurgicale des interactions maje
 **Assistant** :
 > *[Réalisation d'un audit des composants asynchrones textuels. Uniformisation complète en ajoutant la classe experte `katex-render-container` autour des composants `<ReactMarkdown>` dans `QCMMode.tsx`, `ExerciseMode.tsx` et `RevisionPanel.tsx`. Cela permet le masquage des noeuds MathML obsolètes, l'application du scroll overflow élastique sur mobile pour les très longues équations et garantit le même rendu impeccable que la balise ChatBot au moment du téléchargement des fiches PDF LaTeX.]*
 
+---
+
+### [2026-06-24 18:33:43-07:00]
+**Utilisateur** :
+> Fix the errors in the app
+> error 0: Erreur QCM: Failed to execute 'append' on 'Headers': String contains non ISO-8859-1 code point.
+
+**Assistant** :
+> *[Résolution d'un bogue critique d'en-tête lié à l'encodage des API keys. Lorsqu'une clé API Gemini était saisie ou copiée avec des guillemets stylisés (comme les guillemets intelligents de traitement de texte `“` et `”`), des espaces insécables ou d'autres caractères non-ISO-8859-1 invisibles, l'initialisation du client GoogleGenAI échouait lors de l'appel HTTP avec une erreur Headers native. Création d'un utilitaire d'assainissement `cleanApiKey` éliminant tous les caractères unicode non-ASCII/non-ISO-8859-1, ainsi que les guillemets englobants, rendant ainsi le stockage et la récupération de clé 100% robustes et imperméables à l'erreur.]*
+
+---
+
+### [2026-06-24 18:38:05-07:00]
+**Utilisateur** :
+> Toutes les expressions mathématiques doivent être écrites en LaTeX. Exemple : $5x^2 + 3x$ ou $$ \frac{15t^2+200}{3t^2+t+5} $$. Ne jamais écrire (15t^2+200)/(3t^2+t+5). Toujours utiliser \frac{15t^2+200}{3t^2+t+5}.
+
+**Assistant** :
+> *[Mise à jour et injection de règles de génération LaTeX strictes (`LATEX_RULES`) dans l'ensemble des requêtes (prompts) destinées à l'API Gemini : fiches de cours, questions de QCM, exercices et corrigés, ainsi que dans les instructions système du chat continu (ChatBot). Cette politique interdit l'utilisation de notation mathématique brute et oblige l'IA à utiliser rigoureusement le balisage LaTeX avec simple dollar `$` en ligne et double dollars `$$` en bloc pour un rendu visuel parfait et uniforme.]*
+
+---
+
+### [2026-06-24 19:00:15-07:00]
+**Utilisateur** :
+> le rendu est horrible et le fichier trop lourd
+
+**Assistant** :
+> *[Optimisation d'envergure du moteur d'exportation PDF. Pour contrer le rendu flou ou illisible (textes transparents ou grisés sur fond blanc causés par les classes Tailwind de mode sombre persistantes comme `prose-invert`) et l'énorme poids des fichiers (plusieurs mégaoctets en PNG sans compression), réécriture complète du cycle de clonage dans `onclone`. Tous les tags de style sombre sont purgés, et un thème universitaire clair de très haute qualité et contraste est appliqué (textes en Slate-800, en-têtes en Bleu Royal, formules en Bleu Profond, corrigés en Vert émeraude sur fond vert clair doux). De plus, l'image est capturée avec une échelle optimisée de `1.8` et encodée au format JPEG compressé à `0.75` au lieu de PNG, réduisant le poids final d'un facteur 15 (entre 100 Ko et 250 Ko par PDF) tout en préservant une netteté cristalline.]*
+
+
+

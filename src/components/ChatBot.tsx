@@ -51,39 +51,95 @@ const downloadMessageAsPDF = async (index: number) => {
   if (!container) return;
 
   try {
-    // Rend l'élément HTML (contenant le texte et les formules LaTeX de KaTeX) en canvas haute résolution
+    // Rend l'élément HTML (contenant le texte et les formules LaTeX de KaTeX) en canvas haute résolution optimisé
     const canvas = await html2canvas(container, {
-      scale: 2.5, // Superbe netteté des équations lors d'impression ou zoom sur PDF
+      scale: 1.8, // Netteté optimisée des équations sans alourdir le fichier
       backgroundColor: '#ffffff',
       logging: false,
       useCORS: true,
       onclone: (clonedDoc) => {
+        // Nettoyage de toutes les expressions de couleur oklch() dans les feuilles de style clonées
+        // Tailwind v4 utilise oklch par défaut, ce qui fait planter html2canvas car il ne supporte pas oklch()
+        try {
+          const styles = clonedDoc.querySelectorAll('style');
+          styles.forEach((styleTag) => {
+            if (styleTag.innerHTML && styleTag.innerHTML.includes('oklch')) {
+              styleTag.innerHTML = styleTag.innerHTML.replace(/oklch\([^)]*\)/g, 'rgb(120, 120, 120)');
+            }
+          });
+          const oklchElements = clonedDoc.querySelectorAll('[style*="oklch"]');
+          oklchElements.forEach((el: any) => {
+            let inlineStyle = el.getAttribute('style');
+            if (inlineStyle) {
+              inlineStyle = inlineStyle.replace(/oklch\([^)]*\)/g, 'rgb(120, 120, 120)');
+              el.setAttribute('style', inlineStyle);
+            }
+          });
+        } catch (e) {
+          console.error('Erreur nettoyage oklch pour PDF:', e);
+        }
+
         const clonedEl = clonedDoc.getElementById(`message-text-${index}`);
         if (clonedEl) {
-          // Applique des styles universitaires et scientifiques haut-de-gamme
-          clonedEl.style.padding = '30px 42px';
-          clonedEl.style.color = '#0f172a'; // slate-900
+          // Force les styles de conteneur d'excellence académique à fond blanc pur et texte très contrasté
+          clonedEl.style.padding = '35px 45px';
+          clonedEl.style.color = '#0f172a'; // Ardoise foncée lisible
           clonedEl.style.background = '#ffffff';
           clonedEl.style.width = '740px'; // Étalonnage optimal pour le format A4
           clonedEl.style.maxWidth = '100%';
-          clonedEl.className = 'prose max-w-none'; // Enlève la classe de mode sombre
 
-          // En-têtes scolaires
-          const headings = clonedEl.querySelectorAll('h1, h2, h3, h4');
+          // Nettoyage de toutes les classes de mode sombre et de couleurs floues sur le conteneur principal et ses enfants
+          clonedEl.classList.remove('prose-invert', 'text-gray-300', 'text-gray-100');
+          const allChildren = clonedEl.querySelectorAll('*');
+          allChildren.forEach((child: any) => {
+            child.classList.remove(
+              'prose-invert',
+              'text-gray-100',
+              'text-gray-200',
+              'text-gray-300',
+              'text-gray-400',
+              'text-gray-500',
+              'text-slate-100',
+              'text-slate-200',
+              'text-slate-300',
+              'text-blue-400',
+              'text-green-400',
+              'bg-gray-800',
+              'bg-gray-900',
+              'bg-slate-900',
+              'bg-slate-800',
+              'bg-black/30',
+              'border-gray-800',
+              'border-slate-800'
+            );
+            // Assure une police propre et standardisée
+            child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+          });
+
+          // En-têtes scolaires bleus nets
+          const headings = clonedEl.querySelectorAll('h1, h2, h3, h4, h5, h6');
           headings.forEach((h: any) => {
             h.style.color = '#1d4ed8'; // Bleu d'excellence éducatif
             h.style.fontWeight = 'bold';
             h.style.borderBottom = '1px solid #e2e8f0';
             h.style.paddingBottom = '6px';
-            h.style.marginTop = '1.25rem';
+            h.style.marginTop = '1.5rem';
             h.style.marginBottom = '0.75rem';
           });
 
-          // Sublime les équations pour un confort visuel maximal
+          // Force la lisibilité pour tous les textes
+          const texts = clonedEl.querySelectorAll('p, li, span, td, th');
+          texts.forEach((t: any) => {
+            if (!t.classList.contains('katex') && !t.closest('.katex')) {
+              t.style.color = '#1e293b'; // Slate-800
+            }
+          });
+
+          // Sublime les équations KaTeX pour un confort de lecture optimal en bleu foncé contrasté
           const katexElements = clonedEl.querySelectorAll('.katex');
           katexElements.forEach((kat: any) => {
-            kat.style.color = '#1e3a8a'; // Bleu profond contrasté pour la physique-maths
-            kat.style.fontSize = '125%';
+            kat.style.color = '#1e3a8a'; 
+            kat.style.fontSize = '120%';
           });
 
           // Alignement précis des puces
@@ -96,7 +152,8 @@ const downloadMessageAsPDF = async (index: number) => {
       }
     });
 
-    const imgData = canvas.toDataURL('image/png');
+    // Utilisation de JPEG compressé à 75% au lieu de PNG pour diviser le poids du fichier par 15 tout en préservant la netteté !
+    const imgData = canvas.toDataURL('image/jpeg', 0.75);
     
     const doc = new jsPDF({
       orientation: 'portrait',
@@ -104,15 +161,14 @@ const downloadMessageAsPDF = async (index: number) => {
       format: 'a4'
     });
 
-    const imgWidth = 210; // Largeur A4
+    const imgWidth = 190; // Largeur de contenu
     const pageHeight = 297; // Hauteur A4
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
-    let position = 0;
+    const pageWidth = 210; // Largeur A4
+    const marginX = 10; // Marges horizontales pour un rendu aéré de 10mm
 
     // Magnifique en-tête d'excellence
     doc.setFillColor(15, 23, 42); // slate-900
-    doc.rect(0, 0, 210, 32, 'F');
+    doc.rect(0, 0, pageWidth, 32, 'F');
     
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
@@ -124,23 +180,46 @@ const downloadMessageAsPDF = async (index: number) => {
     doc.setTextColor(156, 163, 175);
     doc.text("Fiche d'explications certifiée du Tuteur IA - Terminale D/C", 15, 21);
 
-    const startY = 36; // Lancement sous l'en-tête
+    const pxScale = canvas.width / imgWidth;
+    const firstPageHeightMm = 246; // 297 - 36 (startY) - 15 (bottom margin)
+    const firstPageHeightPx = firstPageHeightMm * pxScale;
+    const nextPageHeightMm = 267; // 297 - 15 (top margin) - 15 (bottom margin)
+    const nextPageHeightPx = nextPageHeightMm * pxScale;
 
-    if (imgHeight <= pageHeight - startY - 15) {
-      doc.addImage(imgData, 'PNG', 0, startY, imgWidth, imgHeight);
-    } else {
-      // Découpage réactif et fluide multi-pages
-      doc.addImage(imgData, 'PNG', 0, startY, imgWidth, pageHeight - startY - 15);
-      heightLeft -= (pageHeight - startY - 15);
-      position = -(pageHeight - startY - 15);
+    let sourceY = 0;
+    let isFirstPage = true;
 
-      while (heightLeft > 0) {
+    while (sourceY < canvas.height) {
+      if (!isFirstPage) {
         doc.addPage();
-        const drawHeight = Math.min(heightLeft, pageHeight - 25);
-        doc.addImage(imgData, 'PNG', 0, 15, imgWidth, drawHeight, undefined, 'FAST', 0);
-        heightLeft -= (pageHeight - 25);
-        position -= (pageHeight - 25);
       }
+
+      const currentMaxHeightPx = isFirstPage ? firstPageHeightPx : nextPageHeightPx;
+      const currentMaxHeightMm = isFirstPage ? firstPageHeightMm : nextPageHeightMm;
+      const drawY = isFirstPage ? 36 : 15;
+
+      // Calcul des pixels à découper
+      const sliceHeightPx = Math.min(canvas.height - sourceY, currentMaxHeightPx);
+      const sliceHeightMm = (sliceHeightPx * imgWidth) / canvas.width;
+
+      // Création d'un mini-canvas temporaire pour cette portion de page uniquement (poids réduit)
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = sliceHeightPx;
+
+      const tempCtx = tempCanvas.getContext('2d');
+      if (tempCtx) {
+        tempCtx.drawImage(
+          canvas,
+          0, sourceY, canvas.width, sliceHeightPx,
+          0, 0, canvas.width, sliceHeightPx
+        );
+        const sliceImgData = tempCanvas.toDataURL('image/jpeg', 0.75);
+        doc.addImage(sliceImgData, 'JPEG', marginX, drawY, imgWidth, sliceHeightMm);
+      }
+
+      sourceY += sliceHeightPx;
+      isFirstPage = false;
     }
 
     // Filigranes de bas de page académique
