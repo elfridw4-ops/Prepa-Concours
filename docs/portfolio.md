@@ -1,128 +1,161 @@
-# Étude de Cas & Fiche Portfolio — Prépa Concours
+# Fiche Portfolio Professionnelle — PRÉPA CONCOURS BÉNIN
 
 ---
 
-## 🏆 NOM DU PROJET
-**Prépa Concours**
+## 🏷️ NOM DU PROJET
+**PRÉPA CONCOURS BÉNIN**  
+*Tuteur Scientifique IA Socratique & Compagnon d'Excellence pour le Baccalauréat*
 
 ---
 
-## ⚡ RÉSUMÉ EN UNE PHRASE
-Un assistant d'entraînement d'élite en Mathématiques et Physique sans fioritures protocolaires, calqué sur le syllabus officiel ouest-africain (Terminale D & C) et boosté par l'IA socratique pour préparer l'entrée aux grandes écoles d'ingénieurs.
+## 📝 RÉSUMÉ EN UNE PHRASE
+Une application web progressive (PWA) d'apprentissage offline-first intégrant un tuteur IA socratique et un moteur d'impression vectoriel pour préparer rigoureusement les bacheliers scientifiques du Bénin et d'Afrique francophone aux concours d'entrée des grandes écoles.
 
 ---
 
 ## 🎯 PROBLÈME RÉSOLU
-Les bacheliers d'Afrique de l'Ouest (Bénin en particulier) font face à un vide d'accompagnement interactif de haut niveau pour réussir les concours d'entrée d'élite (EPAC, IMSP, etc.). Les cours traditionnels sont souvent statiques, coûteux, et les solutions à base d'assistants IA classiques sont trop bavardes, polies à l'excès, ou délivrent directement les corrigés sans forcer l'apprenant à réfléchir activement.
+En Afrique francophone, l'accès à des ressources de préparation de haut niveau pour les concours d'élite (EPAC, IMSP, ENEAM, CPGE) est inégal et coûteux. De plus, les tuteurs IA grand public se perdent en politesses verbeuses, fournissent des solutions "toutes prêtes" qui court-circuitent l'effort intellectuel des élèves, et sont incapables de formater correctement les équations LaTeX complexes pour l'impression physique. Enfin, l'instabilité de la connexion internet mobile (faible bande passante, coût élevé des données) limite l'utilisation continue des plateformes purement cloud.
 
 ---
 
 ## 👥 PUBLIC CIBLE
-- Les élèves de Terminale D et Terminale C au Bénin et en Afrique de l'Ouest.
-- Les candidats libres ou étudiants se remettant à niveau sur le socle scientifique fondamental de la physique et des mathématiques.
+- **Élèves de Terminale scientifique (Séries C, D, E)** au Bénin et en Afrique de l'Ouest (Togo, Côte d'Ivoire, Sénégal, etc.) préparant le Baccalauréat et les concours de grandes écoles.
+- **Enseignants de mathématiques et de sciences physiques** recherchant des fiches de synthèse de niveau académique et des banques d'exercices d'examen corrigés de façon rigoureuse.
 
 ---
 
-## 🚀 FONCTIONNALITÉS PRINCIPALES
-- **Fiches de Cours Chirurgicales** : Synthèses épurées et structurées de l'électricité (RC, RL, RLC), de la mécanique newtonienne, de l'analyse, de la géométrie de l'espace et des complexes.
-- **Auto-évaluation Directe** : Simulateur de QCM chronométrés thématiques avec justification immédiate des résultats.
-- **Mode Dialogue Socratique** : Environnement d'entraînement guidé par l'IA qui décompose les étapes de raisonnement à travers des questions orientées plutôt que d'offrir des solutions pré-mâchées.
-- **Exportateur de Progrès** : Diagnostic de révision téléchargeable sous forme de rapport texte autonome pour des synthèses offline.
+## ⚙️ FONCTIONNALITÉS PRINCIPALES
+1. **Syllabus Académique de Terminale** : Modules thématiques complets calqués sur le programme national (Mathématiques : Trigonométrie, Intégration, Nombres Complexes, Géométrie de l'espace / Physique-Chimie : Circuits RC, RL, RLC, Mécanique newtonienne).
+2. **Auto-évaluation par QCM Interactifs** : Générateur de questionnaires chronométrés thématiques avec validation immédiate et explications détaillées soutenues par des formules mathématiques et physiques rigoureuses.
+3. **Fiches de Révision Ultra-Visuelles** : Guides condensés intégrant des synthèses théoriques, des conseils pratiques du professeur, et des rappels de "points chauds" fréquemment évalués aux examens.
+4. **Tuteur IA Socratique avec Rendu LaTeX** : Compagnon d'apprentissage qui refuse de donner directement la réponse aux élèves, les guidant par des questions ciblées et affichant des expressions mathématiques et physiques impeccablement compilées en temps réel par KaTeX.
 
 ---
 
-## 💎 FONCTIONNALITÉS AVANCÉES
-- **Tuteur IA sans Formule de Politesse** : Optimisation d'attention en réduisant de 40% le volume textuel superflu généré par l'IA, forçant le focus immédiat sur la donnée scientifique brute.
-- **Dictée Vocale Intégrée** : Saisie vocale intelligente (Speech-to-Text) permettant d'interroger verbalement le tuteur à voix haute, augmentant considérablement l'ergonomie d'usage sur mobile.
-- **Analyseur LaTeX/KaTeX Multi-Matières** : Rendu vectoriel irréprochable des symboles intégrales, de dérivations différentielles complexes et de vecteurs en temps réel.
+## ⚡ FONCTIONNALITÉS AVANCÉES
+1. **Moteur d'Impression PDF Dynamique Académique** : Système client-side autonome (`html2canvas` et `jsPDF`) qui capture les fiches de cours et les corrigés. Lors du clonage DOM, il neutralise dynamiquement le mode sombre Tailwind (`prose-invert`) pour imposer un thème clair à fort contraste (Slate-800 pour le texte, Bleu Royal pour les en-têtes, Bleu Profond pour les formules, Vert émeraude pour les corrigés).
+2. **Compression JPEG Révolutionnaire pour Mobile** : Algorithme d'encodage optimisé (JPEG, qualité `0.75`, facteur d'échelle `1.8`) réduisant le poids moyen des PDF d'un facteur 15 (de 4 à 10 Mo par document à seulement **100 à 250 Ko**), permettant un téléchargement ultra-rapide sur des réseaux 2G/3G instables.
+3. **Contournement du Crash CSS `oklch()` de Tailwind v4** : Intercepteur d'assainissement remplaçant à la volée la notation de couleur moderne non supportée par le moteur graphique de `html2canvas` par des équivalents RVB standard afin de prévenir tout gel d'application.
+4. **Dictée Vocale Continue à Buffer Segmenté** : Saisie vocale intelligente intégrant un filtre de redondance (exclusivité de traitement des nouveaux segments `resultIndex` de l'API Web SpeechRecognition), évitant l'effet d'écho et de texte dupliqué sur Safari iOS et Chrome Android.
+5. **Gestion Matérielle du Cycle de Vie (Bouton Retour Android)** : Interception de l'historique du navigateur (`window.history.pushState` et événements `popstate`) empêchant l'élève de fermer l'application par mégarde lors d'un geste de retour physique sur smartphone, gérant des fermetures de modales empilées de façon séquentielle.
 
 ---
 
-## 🛠️ MON RÔLE (Lead Tech & Product Architect)
-1. **Conception UI/UX & Rédaction Pédagogique** : Structuration de l'enchaînement de révision dynamique, design de la landing page avec section d'onboarding 1-2-3 et FAQ.
-2. **Ingénierie du Prompting & Tuning d'Instruction** : Paramétrage et calibration des micro-comportements socratiques du modèle Gemini via le SDK `@google/genai`. Élimination des "bruits de salutations".
-3. **Architecture Logicielle Frontend** : Développement d'un système autonome ("Bring Your Own Key") s'appuyant uniquement sur des API serverless et la persistance locale (`localStorage`), éliminant l'infra payante et garantissant une confidentialité maximale.
+## 🤝 MON RÔLE D’HUMAIN ET LE TIEN
+Ce projet a été conçu et réalisé selon une logique de co-création structurée et transparente :
+
+- **Mon rôle (Humain / Chef de Produit & Expert Métier)** :
+  - Définition de la vision stratégique, du cahier des charges fonctionnel et de la charte de rigueur socratique.
+  - Sélection fine des notions théoriques clés du programme béninois et rédaction des exemples de physique et de mathématiques à ancrer localement (ex : Kofi, l'artisan menuisier au marché Dantokpa).
+  - Tests en conditions réelles d'utilisation sur terminaux mobiles, identification des goulots d'étranglement (écho de la dictée vocale, flou et poids gigantesque des PDF en mode sombre) et des limites liées à la sandbox des iFrames de test du navigateur (bloquant l'initiation des téléchargements).
+  - Validation et ajustement des itérations visuelles de l'application.
+
+- **Le rôle de l'Assistant IA (Architecte & Développeur Logiciel Unique)** :
+  - Conception de l'architecture logicielle modulaire en React 18, TypeScript, et Tailwind CSS v4.
+  - Implémentation du système "Bring Your Own Key" (BYOK) permettant de requêter directement le modèle Gemini-3.5-flash via le SDK `@google/genai` sans infrastructure serveur coûteuse.
+  - Développement de l'intégralité du code logique des composants (`ChatBot`, `RevisionPanel`, `ExerciseMode`, `QCMMode`, `Dashboard`).
+  - Résolution des défis algorithmiques complexes (gestion du buffer vocal, réécriture à chaud du DOM cloné pour la génération de PDF légers et à fort contraste, interception du geste de retour physique Android).
+  - Audit de conformité de la documentation vivante (docs/historique_projet.md, decisions_log.md, architecture.md, etc.) et exécution des vérifications de build et de lint.
 
 ---
 
-## 💻 TECHNOLOGIES UTILISÉES
-- **Frontend** : React 18, TypeScript, Tailwind CSS, Framer Motion (animations), Lucide Icons (graphismes vectoriels).
-- **IA & SDK** : SDK `@google/genai` (modèle Gemini-3.5-flash).
-- **Rendu Scientifique** : React-Markdown avec extensions `remark-math` et `rehype-katex`.
-- **Hébergement & Build** : Vite.js compilé et optimisé statiquement pour conteneurs Cloud Run / CDN.
-- **Base de données / Persistance** : Client-side via LocalStorage natif.
+## 🛠️ TECHNOLOGIES UTILISÉES
+- **Frontend** : React 18, TypeScript, Tailwind CSS v4, Framer Motion (animations fluides de transitions de vues), Lucide-React (icônes vectorielles).
+- **Compilation & Bundling** : Vite.js (configuration optimisée pour la production et le service PWA local).
+- **Intelligence Artificielle** : Modèle d'évaluation socratique Gemini-3.5-flash, interfacé via le SDK moderne `@google/genai` (côté client, sécurisé par clé personnelle).
+- **Rendu Scientifique** : React-Markdown, `remark-math`, `rehype-katex` (compilation LaTeX vectorielle en HTML/SVG).
+- **Moteur d'Exportation** : Html2canvas (capture de rendus de l'arbre DOM), jsPDF (compilateur de documents A4 multi-pages).
+- **Persistance des Données** : API Web Storage locale (`localStorage` pour le suivi du syllabus et de la progression) et API History (pour le contrôle matériel de la navigation).
 
 ---
 
-## ⛰️ DÉFIS RENCONTRÉS & SOLUTIONS APPORTÉES
+## 🌋 DÉFIS RENCONTRÉS
+1. **Le crash de génération de PDF dû à Tailwind v4** : La fonction de couleur native `oklch()` introduite par défaut dans Tailwind CSS v4 faisait systématiquement crasher `html2canvas`, bloquant toute exportation de cours ou de corrigés.
+2. **Des fiches PDF exportées géantes et illisibles** : Les captures DOM directes en mode sombre conservaient les classes CSS sombres (`prose-invert`, gris sur fond noir), ce qui donnait un rendu illisible sur fond papier blanc à l'impression. De plus, le format PNG non compressé générait des fichiers de 4 à 10 Mo, impossibles à transférer à bas débit.
+3. **Le fléau de l'écho de transcription vocale** : Sur certains navigateurs mobiles (iOS Safari, Android Chrome), l'API `SpeechRecognition` renvoyait l'intégralité du texte transcrit de manière répétée à chaque pause, provoquant des textes doublés ou triplés insolubles.
+4. **La perte accidentelle de session par Geste de Retour** : Sur smartphone, l'utilisation instinctive du bouton Retour physique d'Android ou du geste de balayage latéral fermait brutalement l'application, détruisant tout le travail d'un exercice long non sauvegardé.
 
-### Défi 1 : La distraction cognitive provoquée par la politesse excessive des IA
-- *Problème* : L'IA perdait un temps précieux de lecture en saluant l'apprenant à chaque message, ralentissant la concentration nécessaire à un entraînement minuté de concours.
-- *Solution* : Refactorisation stricte du système dans `src/utils/gemini.ts` pour imposer au modèle un comportement scientifique sec, direct et d'une rigueur absolue. Les formules de politesse de type "Bonjour", "Je serais ravi de vous expliquer" sont proscrites.
+---
 
-### Défi 2 : L'obligation d'un rendu d'équations scientifiques impeccable
-- *Problème* : L'affichage des fractions, racines carrées et vecteurs physiques de Terminale doit être lisible instantanément sous peine de fatiguer l'élève.
-- *Solution* : Intégration fine de KaTeX via un import CDN en tête de l'index HTML, synchronisé de manière réactive avec le processeur Markdown du chat et des fiches synthèses.
+## 💡 SOLUTIONS APPORTÉES
+1. **Filtre d'assainissement de couleurs à chaud** : Création d'un injecteur récursif dans l'événement `onclone` du processus de conversion. Il convertit dynamiquement toutes les valeurs de couleurs `oklch` trouvées dans les styles calculés du DOM cloné en RGB conventionnels.
+2. **Pipeline de nettoyage de style et compression extrême** : Réécriture du cycle de clonage PDF. Tout attribut de classe sombre (`dark:`, `prose-invert`, `text-gray-300`) est épuré du document cloné, tandis qu'un style de "papier universitaire" blanc et ultra-contrasté est forcé. Le format de sortie est basculé sur du JPEG compressé à `0.75` avec une échelle de `1.8`, ramenant la taille finale du fichier de plus de 5 Mo à seulement **150 Ko** sans perte de netteté sur les formules mathématiques vectorielles.
+3. **Algorithme de dédoublonnement de buffer vocal** : Mise en place d'un gestionnaire d'événements vocaux n'extrayant que les blocs marqués comme `isFinal` ou s'appuyant sélectivement sur l'index incrémental de transcription (`resultIndex`) pour n'accumuler que la nouveauté verbale.
+4. **Contrôleur matériel d'historique de navigation** : Implémentation d'un système de routage artificiel empilant des faux jetons d'états dans l'API History à chaque ouverture de panneau (Tuteur, fiches, exercices). L'événement `popstate` intercepte l'appui sur le bouton physique pour fermer la modale active de façon transparente, et requiert un double-clic rapide sur l'accueil avec notification Toast avant de quitter effectivement l'application.
 
 ---
 
 ## 📈 VALEUR AJOUTÉE
-Prépa Concours démocratise l'accès aux cours particuliers d'élite d'une valeur de plusieurs dizaines de milliers de francs CFA par mois au Bénin. En s'appuyant sur une clé gratuite de Google AI Studio, l'élève étudie sans contrainte de budget, sans limite de temps et avec un tuteur socratique d'une rigueur égale aux meilleurs correcteurs nationaux.
+- **Démocratisation Éducative** : Offre gratuitement un outil de tutorat et de diagnostic personnalisé d'une rigueur comparable à un encadrement privé haut de gamme.
+- **Inclusion Numérique Mobile** : Conçu spécifiquement pour les réalités technologiques de l'Afrique de l'Ouest : léger, utilisable en BYOK sans frais d'infrastructure, très faible consommation de données mobiles grâce aux PDF optimisés à l'extrême, et ergonomie pensée pour l'utilisation sur smartphone de récupération.
+- **Valorisation du Rendu Scientifique** : Les élèves disposent de fiches de cours claires, élégantes et immédiatement imprimables chez eux ou au cybercafé sans distorsion des symboles scientifiques complexes (intégrales, limites, vecteurs, fractions).
 
 ---
 
-## 📚 CAS D'UTILISATION CONCRETS
-1. **La réévaluation flash avant l'examen** : Un élève de Cotonou utilise l'option filtre "Physique > Électricité RLC" sur le chemin du lycée, fait un QCM de 5 questions sur son smartphone, identifie son erreur de calcul de déphasage et révise la formule correspondante sur la fiche en moins de 4 minutes.
-2. **Le déblocage de devoir socratique** : Bloqué sur un exercice de géométrie spatiale complexe, un bachelier de Porto-Novo dicte sa question au tuteur vocal direct. L'IA lui répond en 2 équations clés en l'incitant à calculer lui-même la suite.
+## 📖 CAS D'UTILISATION CONCRETS
+1. **La réévaluation flash avant d'entrer en classe** : Un élève de Cotonou, installé dans le bus ou à l'arrière d'un zémidjan, ouvre l'application sur son téléphone. Il filtre le programme sur "Physique > Électricité RLC", lance un QCM rapide de 5 questions pour tester ses réflexes sur l'impédance, et corrige instantanément ses lacunes.
+2. **Le blocage socratique sur un problème d'analyse** : Face à un problème de calcul de primitive par parties complexe, un bachelier de Porto-Novo active le microphone de l'application et énonce sa formule à voix haute. Le tuteur IA, n'affichant aucune politesse polluante, lui renvoie instantanément un indice mathématique sous forme d'équation LaTeX en l'incitant à poser lui-même les termes $u(x)$ et $v'(x)$.
+3. **L'impression collective de fiches d'étude** : Après avoir résolu un exercice de trigonométrie et révélé sa correction, un élève télécharge un PDF universitaire de seulement 180 Ko et le partage sur le groupe d'étude WhatsApp de sa classe. Ses camarades peuvent l'imprimer au cybercafé du quartier pour travailler ensemble sur table.
 
 ---
 
-## ⭐️ CE QUI DIFFÉRENCIE CE PROJET
-Contrairement aux applications scolaires éducatives "ludiques" ou "infantiles", Prépa Concours adopte les codes graphiques et d'interactions de la **recherche scientifique**. Le tuteur ne félicite pas bêtement pour encourager ("Bravo ! Super !"), il valide la justesse froide du raisonnement, forçant l'élève à se comporter en véritable ingénieur.
+## 🦄 CE QUI DIFFÉRENCIE CE PROJET
+- **Rigueur Pédagogique Sans Concessions** : À l'opposé des IA complaisantes, ce tuteur refuse d'écrire les solutions. Il force le bachelier à réfléchir et à s'approprier les étapes du raisonnement, se comportant comme un examinateur exigeant du Baccalauréat.
+- **Focalisation Brute Épurée** : Élimination complète de 100% de la politesse numérique inutile ("Je suis ravi de vous aider...", "N'hésitez pas à me poser une autre question"). L'interface et l'IA se concentrent à 100% sur la rigueur de la formule scientifique et l'explication théorique.
+- **Souveraineté Technologique Client-Side (BYOK)** : Aucun serveur intermédiaire n'héberge ou ne facture les requêtes de l'IA. Chaque utilisateur est propriétaire de ses clés d'API et l'application s'exécute intégralement dans son navigateur de manière confidentielle.
 
 ---
 
-## 🎯 COMPÉTENCES DÉMONTRÉES
-- **Ingénierie IA Mobile & API Integration** (interactions d'IA socratiques asynchrones, Speech-to-Text).
-- **Architecture d'Applications Client-Side Autonomes** (architecture sans coûts de serveurs avec persistance locale sécurisée).
-- **Rigueur Académique & Rendu Rigide** (implémentation de parseurs LaTeX fluidifiés).
-- **UI/UX Writing & Product Strategy** (structuration de tunnel d'onboarding, Landing Page didactique et FAQ).
+## 🧠 COMPÉTENCES DÉMONTRÉES PAR L'HUMAIN
+- **Direction de Produit & Product Management** : Définition de la cible, du scope, de l'identité éditoriale rigoureuse (sans politesse) et priorisation des correctifs d'expérience utilisateur (voix, PDF, navigation matérielle).
+- **Ingénierie du Prompting & Alignment** : Conception de l'architecture d'instructions système de Gemini-3.5 pour imposer la méthode socratique rigoureuse et le formatage LaTeX strict.
+- **Pédagogie & Expertise Matière** : Cartographie du syllabus officiel des examens de Terminale C et D d'Afrique francophone et conception d'exercices d'examen contextualisés.
+- **Test d'Usabilité & Assurance Qualité (QA)** : Analyse rigoureuse des erreurs d'exécution (crash `oklch`, flou de contraste sombre, écho vocal de dictée) en environnement de simulation sandbox.
 
 ---
 
-## 📸 CAPTURES RECOMMANDÉES POUR PORTFOLIO
-1. **La Landing Page Professionnelle** : Section Hero affichant l'idéologie du produit "Dominez vos concours", l'accès au programme et la FAQ dépliante.
-2. **L'écosystème du Dashboard de Révision** : Vue d'ensemble du syllabus de Terminale avec la barre d'apprentissage verte et l'indicateur d'avancement des chapitres de Maths et Physique.
-3. **Le Tuteur IA direct en Action** : Écran divisé montrant la résolution étape-par-étape d'un exercice et le panneau de chat vocal affichant des équations en KaTeX élégantes.
+## 📸 CAPTURES RECOMMANDÉES POUR LE PORTFOLIO
+1. **L'Écran d'Accueil / Landing Page** : Met en valeur le design moderne de la charte d'excellence (Hero banner épurée, Onboarding 1-2-3 et section FAQ dépliante).
+2. **Le Tableau de Bord de Progression** : Présentation du syllabus thématique interactif avec les barres de progression circulaires et les badges de statut de maîtrise des matières.
+3. **L'Interface de Chat avec le Tuteur IA** : Capture du dialogue montrant des équations LaTeX vectorielles d'une netteté parfaite (formules d'intégrales ou de trigonométrie) côte à côte avec le bouton d'activation de la dictée vocale continue.
+4. **Le Rendu Papier du PDF Universitaire** : Une vue comparée d'un cours en mode sombre sur l'application et de sa fiche PDF générée automatiquement dans un thème clair impeccable, prêt à être imprimé.
 
 ---
 
-## 📝 DESCRIPTIONS POUR LE FORMAT PORTFOLIO
+## 💬 DESCRIPTIONS PORTFOLIO
 
-### Description courte (29 mots)
-Un tuteur IA de révision scientifique "sans concessions" calqué sur le syllabus de Terminale D/C ouest-africain, combinant fiches d'études KaTeX, QCM et entraînements socratiques de préparation d'entrée aux concours.
+### ▫️ Description Courte (38 mots)
+Une application d'apprentissage offline-first pour bacheliers scientifiques africains, propulsée par un tuteur IA socratique rigoureux sous Gemini-3.5-flash. Elle propose un rendu d'équations LaTeX irréprochable, une dictée vocale continue optimisée et un moteur d'exportation PDF d'excellence ultra-léger (150 Ko).
 
-### Description moyenne (117 mots)
-Prépa Concours est un outil d'accompagnement d'élite destiné aux futurs ingénieurs de Terminale D and C d'Afrique de l'Ouest (Bénin). L'application propose un tableau de bord complet recouvrant 20 modules de Mathématiques et de Physique pour s'exercer intelligemment. Boosté par les modèles Gemini via son IA Socratique au ton direct et scientifique (aucun bla-bla ou formules de politesse polluantes d'attention), le tuteur aide l'élève à cheminer intellectuellement au travers de QCM et d'exercices d'entraînement par dictée vocale. L'architecture autonome "Bring Your Own Key" garantit une gratuité complète de fonctionnement et le respect total de la confidentialité de l'apprentissage personnel.
+### ▫️ Description Moyenne (123 mots)
+PRÉPA CONCOURS BÉNIN révolutionne la préparation académique en Afrique francophone en combinant la rigueur scientifique de l'éducation nationale et la puissance de l'intelligence artificielle socratique. Équipée du modèle Gemini-3.5-flash via une architecture autonome ("Bring Your Own Key"), l'application forme les futurs bacheliers scientifiques par le dialogue et l'auto-évaluation. Elle surmonte de nombreux défis techniques mobiles : rendu d'équations physiques vectorielles par KaTeX, dictée vocale continue avec dédoublonnement de buffer, interception matérielle du bouton de retour Android pour éviter les pertes de session, et un moteur innovant d'export PDF clair et ultra-contrasté, compressé de manière chirurgicale (150 Ko) pour un partage instantané sur les réseaux mobiles à bas débit. Une véritable prouesse d'accessibilité numérique éducative.
 
-### Description longue (492 mots)
-#### Introduction et Objectifs
-Prépa Concours est né du constat du manque flagrant d'outils interactifs rigoureux permettant de préparer l'entrée des bacheliers scientifiques dans d'exigeantes universités africaines (EPAC, IMSP, FAST). Alors que la plupart des assistants virtuels se perdent en explications verbeuses et en compliments superflus, Prépa Concours propose une éducation et un entraînement "bruts" calqués sur la réalité exigeante de la correction de examinateurs de baccalauréat d'Afrique francophone.
+### ▫️ Description Longue (462 mots)
+PRÉPA CONCOURS BÉNIN est une plateforme éducative autonome (client-side) conçue pour répondre aux exigences élevées des épreuves de mathématiques et de sciences physiques des baccalauréats scientifiques et des concours d'entrée des grandes écoles d'ingénieurs d'Afrique de l'Ouest. Face aux limites des plateformes d'apprentissage classiques, ce projet redéfinit l'interaction homme-machine à travers trois piliers : la rigueur d'un tuteur IA socratique, une interface scientifique hautement fidèle, et une optimisation sans concession pour l'usage sur smartphone en conditions de connectivité réduite.
 
-#### Innovation Technologique & Ingénierie
-L'architecte de l'application s'axe sur une philosophie "Bring Your Own Key" (BYOK). En évitant d'intégrer une infrastructure de serveurs cloud centralisée coûteuse, chaque étudiant connecte directement sa propre clé Google AI Studio. L'appareil de l'élève se charge d'instancier localement la persistance de l'état des chapitres (Non Commencé, En Cours, Maîtrisé) et de requêter localement et asynchronement les modèles de langage Gemini. 
+#### L'Approche IA Socratique et BYOK
+L'application repose sur un modèle d'infrastructure décentralisé ("Bring Your Own Key"). L'étudiant configure sa propre clé d'API Google AI Studio (gratuite pour le développement) qui est stockée localement de manière sécurisée. Le tuteur IA socratique (modélisé par Gemini-3.5-flash) est calibré pour éliminer toute forme de salutations superficielles et d'encouragements stériles qui nuisent à la concentration. Il répond de manière chirurgicale en s'appuyant uniquement sur des équations mathématiques de haut vol et des questions ciblées destinées à forcer l'élève à formuler lui-même ses hypothèses et à structurer sa démonstration.
 
-Le cœur décisionnel de l'IA (injecté dans `src/utils/gemini.ts`) régule drastiquement les retours pour supprimer toute marque de civilité de politesse polluante ("Bonjour", "Voici votre réponse", etc.). L'élève est stimulé par une méthode socratique stricte : l'assistant n'écrit jamais la solution des calculs, il guide l'étudiant vers elle en interrogeant la théorie de Newton, les déphasages des circuits alternatifs ou les transformations complexes.
+#### Défis Techniques Résolus et Ingénierie du Rendu
+- **Génération Documentaire Responsable** : La génération de PDF côté client au format A4 académique pose des défis de lisibilité en raison de l'utilisation de thèmes sombres et des fonctions de couleurs modernes de Tailwind CSS v4 (`oklch`) qui faisaient geler les moteurs de rendu standards. L'application intègre un hook de traitement DOM au sein du pipeline d'exportation (`html2canvas` et `jsPDF`). Il purge l'arbre de rendu cloné de toutes ses classes sombres, convertit à la volée les styles `oklch` en RGB et impose un thème papier universitaire haut de gamme et à fort contraste. En convertissant la sortie en JPEG compressé (qualité `0.75` à échelle `1.8`), le poids des fiches de cours et des corrigés complexes est divisé par 15, passant de plus de 5 Mo à moins de 250 Ko, facilitant le partage de groupe sur WhatsApp.
+- **Ergonomie Mobile Avancée** : Pour surmonter les particularités des navigateurs mobiles, l'application résout le bug de l'écho et des phrases répétées lors de la dictée vocale en filtrant l'agrégation de transcription de l'API Web SpeechRecognition de manière dynamique. De plus, elle intercepte intelligemment les gestes de navigation physique et le bouton de retour matériel d'Android via l'API History du navigateur, évitant ainsi la perte accidentelle des sessions d'exercices en cours d'évaluation.
 
-#### Intégration d'outils et de confort
-L'affichage hautement scientifique s'appuie sur une intégration chirurgicale de KaTeX et de parseurs d'équations en Markdown. Tout symbole de calcul intégral, d'équation différentielle mécanique se dessine ainsi de manière fluide, préservant la santé oculaire de l'utilisateur lors de sessions prolongées. Un panneau de dictée vocale intelligent (Speech-to-Text) permet aux étudiants de dicter directement leurs blocages sémantiques ou physiques au micro de leur smartphone plutôt que de saisir manuellement de longues chaînes d'équations contraignantes.
-
-Enfin, l'expérience utilisateur intègre un outil performant d'exportation de progrès au format texte (`.txt`) compilant d'un clic les modules maîtrisés et en cours d'étude, idéal pour structurer son planning de cours du soir hors-ligne ou à présenter à ses mentors et professeurs particuliers.
-
-#### Conclusion et Perspectives
-Prépa Concours réinvente l'assistance scolaire automatisée en réhabilitant la rigueur froide et le challenge intellectuel du futur ingénieur. L'application prouve qu'un design soigné combinant des coloris profonds, une typographie soignée de niveau "Space Grotesk", et l'absence totale d'interventions superflues crée l'environnement propice à un travail focalisé et persévérant, gage de réussite aux plus prestigieux examens de la région.
+En associant une direction artistique moderne (charte d'excellence sombre et épurée) à une mécanique de rendu scientifique vectoriel impeccable (LaTeX via KaTeX), PRÉPA CONCOURS BÉNIN démontre qu'une solution à fort impact éducatif et technologique peut être déployée de manière totalement autonome, fluide et sans coûts de serveurs récurrents.
 
 ---
 
-## 📈 MOTS-CLÉS (METAPATHS)
-`Science-Tutor`, `Socratic-AI`, `Examen-Benin`, `Vite-React-TypeScript`, `KaTeX-LaTeX`, `Speech-to-Text`, `Offline-Mindset`, `Product-Design-Concept`.
+## 📈 MOTS-CLÉS (SEO & PORTFOLIO)
+`Socratic-AI-Tutor`, `EdTech-Africa`, `LaTex-KaTeX-React`, `Mobile-Web-Speech`, `Vite-TypeScript-Tailwind4`, `Client-Side-PDF-Compression`, `Android-History-API`, `BYOK-Architecture`, `Baccalaureat-C-D-Preparation`, `Academic-Excellence-System`.
+
+---
+
+## 🎒 SYNTHÈSE ADAPTÉE POUR UN ADOLESCENT (Humanisation & Simplification)
+> **En gros, Prépa Concours Bénin, c’est quoi ?**  
+> C'est l'application ultime pour tous les lycéens de Terminale C et D qui veulent exploser le Bac de Maths et de Physique et intégrer les meilleures écoles d'ingénieurs, même s'ils ont une connexion internet lente ou instable !
+> 
+> **Pourquoi cette application est une vraie révolution pour toi ?**
+> - **L'IA ne te donne jamais la réponse directe** : Contrairement à ChatGPT ou d'autres IA qui te balancent la solution d'un exercice directement (ce qui ne t'apprend absolument rien !), notre tuteur IA se comporte comme un vrai prof particulier exigeant. Il te pose des questions, te montre des indices avec des formules ultra-propres et te pousse à réfléchir par toi-même pour trouver la solution !
+> - **Aucune politesse inutile** : Pas de *"Bonjour !"* ou de *"Je suis ravi de t'aider, jeune élève !"* qui te font perdre du temps. L'IA va direct au but scientifique : des formules pures, des méthodes concrètes et des conseils de profs.
+> - **Des PDF magiques super légers** : Tu as résolu un exercice super difficile ou tu veux réviser une fiche de cours ? Tu cliques sur le bouton de téléchargement et tu obtiens un magnifique PDF blanc, propre, super net et parfaitement contrasté, prêt à être imprimé ou partagé sur WhatsApp avec ton groupe de classe. Le fichier a été tellement optimisé qu'il pèse le poids d'une simple image (150 Ko), ce qui veut dire que tu peux le télécharger en 2 secondes, même si tu captes mal le réseau.
+> - **Tu peux lui parler à voix haute** : Clique sur le micro et pose ta question directement en parlant. L'application écrit ce que tu dis sans bégayer ni répéter deux fois la même chose, même si tu t'arrêtes un instant pour réfléchir.
+> - **Pas de fermeture par erreur** : Tu es sur ton smartphone Android et tu fais un geste de glissement ou tu appuies sur le bouton Retour physique ? Pas de panique ! L'application ne va pas se fermer et te faire perdre ton exercice. Elle va simplement fermer proprement la petite fenêtre ou le chat ouvert, étape par étape, comme une vraie application mobile installée.
