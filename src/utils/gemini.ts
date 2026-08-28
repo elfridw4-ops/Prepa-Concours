@@ -21,6 +21,7 @@ RÈGLES DE RENDU MATHÉMATIQUE (LaTeX OBLIGATOIRE) :
 $$
 \\frac{15t^2+200}{3t^2+t+5}
 $$
+- Tout tableau de formules, matrice, système d'équations ou environnement multi-lignes (ex: \\begin{array}, \\begin{cases}, \\begin{matrix}, \\begin{align}) doit IMPÉRATIVEMENT être enveloppé dans des doubles dollars $$ de part et d'autre pour forcer sa compilation correcte par KaTeX (ex: $$\\begin{array}...\\end{array}$$). Ne les écris jamais sans dollars.
 - Ne jamais écrire d'expressions mathématiques en texte brut ou de manière simplifiée comme "(15t^2+200)/(3t^2+t+5)". Utilise toujours la notation LaTeX exacte (ex: \\frac{15t^2+200}{3t^2+t+5}).
 - N'utilise jamais d'Unicode ou de caractères simples de clavier pour les exposants (n'écris jamais x² mais $x^2$), indices, fractions, racines, intégrales, limites, ou lettres grecques. Représente-les TOUJOURS par leur commande LaTeX correspondante (ex: \\sqrt{x}, \\alpha, \\beta, \\Delta, \\lim_{x \\to 0}).
 - Assure-toi que chaque balise de dollar ou double dollar ouverte est fermée correctement.

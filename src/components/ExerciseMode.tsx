@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { generateExercise } from '../utils/gemini';
 import { Chapter } from '../data/chapters';
@@ -104,8 +105,10 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
                 'border-gray-800',
                 'border-slate-800'
               );
-              // Assure une police propre et standardisée
-              child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+              // Assure une police propre et standardisée, SAUF pour KaTeX qui utilise ses propres polices mathématiques indispensables
+              if (!child.classList.contains('katex') && !child.closest('.katex')) {
+                child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+              }
             });
 
             // En-têtes scolaires bleus nets
@@ -310,7 +313,7 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
                 <h3 className="text-lg font-bold text-gray-100 mb-4 border-b border-gray-800 pb-2">Énoncé</h3>
                 <div className="prose prose-invert prose-blue max-w-none text-gray-300 katex-render-container">
                   <ReactMarkdown 
-                    remarkPlugins={[remarkMath]} 
+                    remarkPlugins={[remarkMath, remarkGfm]} 
                     rehypePlugins={[rehypeKatex]}
                   >
                     {exercise || ''}
@@ -336,7 +339,7 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
                   </h3>
                   <div className="prose prose-invert prose-green max-w-none text-gray-300 bg-green-500/5 border border-green-500/20 rounded-xl p-6 katex-render-container">
                     <ReactMarkdown 
-                      remarkPlugins={[remarkMath]} 
+                      remarkPlugins={[remarkMath, remarkGfm]} 
                       rehypePlugins={[rehypeKatex]}
                     >
                       {correction || ''}

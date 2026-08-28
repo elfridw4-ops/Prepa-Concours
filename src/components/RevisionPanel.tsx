@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { generateRevisionSheet } from '../utils/gemini';
 import { Chapter } from '../data/chapters';
@@ -105,8 +106,10 @@ export const RevisionPanel: React.FC<RevisionPanelProps> = ({ chapter, onClose }
                 'border-gray-800',
                 'border-slate-800'
               );
-              // Assure une police propre et standardisée
-              child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+              // Assure une police propre et standardisée, SAUF pour KaTeX qui utilise ses propres polices mathématiques indispensables
+              if (!child.classList.contains('katex') && !child.closest('.katex')) {
+                child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+              }
             });
 
             // En-têtes scolaires bleus nets
@@ -290,7 +293,7 @@ export const RevisionPanel: React.FC<RevisionPanelProps> = ({ chapter, onClose }
             <div id="revision-content" className="prose prose-invert prose-blue max-w-none katex-render-container">
               {/* ReactMarkdown gère l'affichage du markdown de Gemini */}
               <ReactMarkdown 
-                remarkPlugins={[remarkMath]} 
+                remarkPlugins={[remarkMath, remarkGfm]} 
                 rehypePlugins={[rehypeKatex]}
               >
                 {content || ''}

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, User, Bot, Loader2, Mic, Maximize2, Minimize2, Copy, Download, Check } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { ChatSession } from '../utils/gemini';
 import { jsPDF } from 'jspdf';
@@ -112,8 +113,10 @@ const downloadMessageAsPDF = async (index: number) => {
               'border-gray-800',
               'border-slate-800'
             );
-            // Assure une police propre et standardisée
-            child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+            // Assure une police propre et standardisée, SAUF pour KaTeX qui utilise ses propres polices mathématiques indispensables
+            if (!child.classList.contains('katex') && !child.closest('.katex')) {
+              child.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+            }
           });
 
           // En-têtes scolaires bleus nets
@@ -432,7 +435,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen: propIsOpen, onOpen, on
                     className={`prose prose-sm max-w-none ${msg.role === 'user' ? 'prose-invert text-white' : 'prose-invert'}`}
                   >
                      <ReactMarkdown 
-                        remarkPlugins={[remarkMath]} 
+                        remarkPlugins={[remarkMath, remarkGfm]} 
                         rehypePlugins={[rehypeKatex]}
                      >
                        {msg.text}

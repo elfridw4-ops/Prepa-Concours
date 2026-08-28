@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { generateQCM, QCMQuestion } from '../utils/gemini';
 import { Chapter } from '../data/chapters';
@@ -166,7 +167,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
                   className={btnClass}
                 >
                   <div className="flex justify-between items-center w-full">
-                    <div className="flex-1 text-left prose prose-invert prose-sm katex-render-container"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{choice}</ReactMarkdown></div>
+                    <div className="flex-1 text-left prose prose-invert prose-sm katex-render-container"><ReactMarkdown remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeKatex]}>{choice}</ReactMarkdown></div>
                     {selectedAnswer && isCorrect && <CheckCircle className="text-green-500 ml-2 flex-shrink-0" size={20} />}
                     {selectedAnswer && isSelected && !isCorrect && <XCircle className="text-red-500 ml-2 flex-shrink-0" size={20} />}
                   </div>
@@ -180,7 +181,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
             <div className="mt-8 pt-6 border-t border-gray-800 animate-in fade-in slide-in-from-bottom-2">
               <h4 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Explication</h4>
               <div className="text-gray-300 leading-relaxed mb-6 prose prose-invert prose-sm max-w-none katex-render-container">
-                <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{currentQ.explanation}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeKatex]}>{currentQ.explanation}</ReactMarkdown>
               </div>
               
               <div className="flex justify-end">
