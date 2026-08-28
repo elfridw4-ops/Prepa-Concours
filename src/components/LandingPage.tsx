@@ -40,14 +40,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     {
       question: "Où sont stockées ma progression et ma clé API ?",
       answer: "Toutes vos données (le statut de maîtrise des chapitres, vos réponses aux QCM et votre clé d'API Gemini) sont sauvegardées localement et en toute confidentialité dans le stockage interne de votre propre navigateur (localStorage). Aucun serveur externe ne conserve vos informations."
-    },
-    {
-      question: "Pourquoi l'exportation de fiches PDF peut-elle échouer dans l'iFrame ?",
-      answer: "Si vous utilisez l'application au sein de la console de test de développement, la politique de sécurité de l'iFrame navigateur bloque parfois les téléchargements de fichiers PDF générés localement. Pour que les fiches se téléchargent instantanément sans aucune entrave, ouvrez simplement l'application dans son propre onglet autonome."
-    },
-    {
-      question: "Comment fonctionne l'intercepteur de navigation mobile ?",
-      answer: "Sur smartphone et en mode PWA, l'utilisation du bouton physique ou du geste 'Retour' ne ferme pas brutalement l'application. Le système fermera séquentiellement le chatbot d'explication ou l'exercice de révision actif afin de protéger vos progrès en cours."
     }
   ];
 
@@ -101,40 +93,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* ACCÈS DIRECTS COMPACTS */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <button 
-          onClick={onStartRevision}
-          className="group text-left p-6 bg-gray-900/20 border border-gray-800 rounded-xl hover:border-blue-500/50 hover:bg-gray-900/30 transition-all space-y-3 cursor-pointer"
-        >
-          <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 transition-all">
-            <BookOpen size={20} />
-          </div>
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-gray-100 group-hover:text-blue-400 transition-colors">Consulter le programme d'exercices</h3>
-            <ArrowRight size={16} className="text-gray-500 group-hover:text-blue-400 transition-all group-hover:translate-x-1" />
-          </div>
-          <p className="text-xs text-gray-400 leading-relaxed">
-            Accédez aux chapitres clés du Bénin en mathématiques et physique. Consultez les résumés de cours, démarrez des QCM interactifs ou lancez des entraînements d'examens.
-          </p>
-        </button>
-
-        <button 
-          onClick={onOpenChat}
-          className="group text-left p-6 bg-gray-900/20 border border-gray-800 rounded-xl hover:border-green-500/50 hover:bg-gray-900/30 transition-all space-y-3 cursor-pointer"
-        >
-          <div className="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center border border-green-500/20 group-hover:bg-green-500/20 transition-all">
-            <Brain size={20} />
-          </div>
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-gray-100 group-hover:text-green-400 transition-colors">Activer le tuteur IA</h3>
-            <ArrowUpRight size={16} className="text-gray-500 group-hover:text-green-400 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </div>
-          <p className="text-xs text-gray-400 leading-relaxed">
-            Interrogez le tuteur socratique à tout moment par écrit ou par dictée vocale continue. Il vous guidera pour résoudre vos énoncés de physique ou de mathématiques sans donner la réponse brute.
-          </p>
-        </button>
-      </section>
 
       {/* INSTRUCTIONS & CONSEILS PRATIQUES */}
       <section className="space-y-6">
@@ -161,9 +119,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
+
       {/* METRIC COMPACT CARD */}
       <footer className="text-center py-6 border-t border-gray-900 text-gray-600 text-[10px] tracking-wide uppercase">
-        Prépa Concours Bénin • Plateforme d'auto-formation privée libre de publicité
+        Prépa Concours Bénin • Plateforme d'auto-formation
       </footer>
 
     </div>
