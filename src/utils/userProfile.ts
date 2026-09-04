@@ -24,7 +24,7 @@ const DEFAULT_PROFILE: UserProfile = {
   track: 'Terminale D & C · Concours d\'Entrée',
   customInstructions: DEFAULT_INSTRUCTIONS,
   theme: 'dark',
-  model: 'Gemini 2.5 Flash',
+  model: 'Gemini 3.8 Flash',
 };
 
 const USER_PROFILE_KEY = 'prepa_concours_user_profile';
@@ -38,8 +38,10 @@ export const getUserProfile = (): UserProfile => {
     if (parsed.fullName === 'Horacio') parsed.fullName = '';
     if (parsed.nickname === 'Hora') parsed.nickname = '';
     if (parsed.email === 'elfridw4@gmail.com') parsed.email = '';
-    if (parsed.model === 'Gemini 1.5 Pro' || parsed.model === 'Gemini Flash Thinking') {
-      parsed.model = 'Gemini 2.5 Pro';
+    if (parsed.model === 'Gemini 1.5 Pro' || parsed.model === 'Gemini Flash Thinking' || parsed.model === 'Gemini 2.5 Pro') {
+      parsed.model = 'Gemini 3.1 Pro';
+    } else if (parsed.model === 'Gemini 2.5 Flash' || !parsed.model) {
+      parsed.model = 'Gemini 3.8 Flash';
     }
     return { ...DEFAULT_PROFILE, ...parsed };
   } catch (e) {

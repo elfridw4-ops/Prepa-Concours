@@ -19,6 +19,7 @@ import { Chapter } from '../data/chapters';
 import { ChapterProgress } from '../utils/storage';
 import { getUserProfile } from '../utils/userProfile';
 import { ProfileMenu } from './ProfileMenu';
+import { AppLogo } from './AppLogo';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -133,8 +134,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Brand & collapse */}
         <div className="flex items-center justify-between px-2 mb-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 shadow-sm">
-              <GraduationCap size={18} />
+            <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
+              <AppLogo size={30} className="w-7.5 h-7.5" />
             </div>
             <div>
               <h1 className="font-bold text-sm tracking-tight text-gray-100">

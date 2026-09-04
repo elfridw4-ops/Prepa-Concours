@@ -259,8 +259,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onChange={(e) => handleProfileChange('model', e.target.value)}
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   >
-                    <option value="Gemini 2.5 Flash">Gemini 2.5 Flash (Ultra-rapide, idéal pour QCM et fiches de révision)</option>
-                    <option value="Gemini 2.5 Pro">Gemini 2.5 Pro (Raisonnement avancé, idéal pour démonstrations et concours complexes)</option>
+                    <option value="Gemini 3.8 Flash">Gemini 3.8 Flash (Recommandé - Ultra-rapide, idéal pour QCM et fiches de révision)</option>
+                    <option value="Gemini 3.1 Pro">Gemini 3.1 Pro (Raisonnement approfondi, idéal pour démonstrations et concours complexes)</option>
                   </select>
                 </div>
 

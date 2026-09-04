@@ -23,6 +23,7 @@ import {
 import { ChatSession, formatGeminiError } from '../utils/gemini';
 import { getUserProfile, saveUserProfile } from '../utils/userProfile';
 import { exportElementToA4PDF } from '../utils/pdfExport';
+import { AppLogo } from './AppLogo';
 
 // Nettoie le Markdown pour une copie presse-papier propre
 const cleanMarkdownForClipboard = (text: string): string => {
@@ -87,8 +88,9 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
   const [isListening, setIsListening] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [downloadingIndex, setDownloadingIndex] = useState<number | null>(null);
-  const [selectedModel, setSelectedModel] = useState<'Gemini 2.5 Flash' | 'Gemini 2.5 Pro'>(
-    profile.model === 'Gemini 2.5 Pro' ? 'Gemini 2.5 Pro' : 'Gemini 2.5 Flash'
+  const [regeneratingIndex, setRegeneratingIndex] = useState<number | null>(null);
+  const [selectedModel, setSelectedModel] = useState<'Gemini 3.8 Flash' | 'Gemini 3.1 Pro'>(
+    profile.model?.includes('Pro') ? 'Gemini 3.1 Pro' : 'Gemini 3.8 Flash'
   );
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
   const [activeMode, setActiveMode] = useState<'Tuteur' | 'Examen' | 'Synthèse'>('Tuteur');
@@ -99,9 +101,9 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
   const chatSessionRef = useRef<ChatSession | null>(null);
   const recognitionRef = useRef<any>(null);
 
-  const availableModels: ('Gemini 2.5 Flash' | 'Gemini 2.5 Pro')[] = [
-    'Gemini 2.5 Flash',
-    'Gemini 2.5 Pro'
+  const availableModels: ('Gemini 3.8 Flash' | 'Gemini 3.1 Pro')[] = [
+    'Gemini 3.8 Flash',
+    'Gemini 3.1 Pro'
   ];
 
   // Reçoit un prompt template depuis la sidebar
@@ -217,6 +219,66 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
+    }
+  };
+
+  // Relance la génération d'une réponse spécifique du tuteur
+  const handleRegenerateMessage = async (tutorIndex: number) => {
+    if (isLoading) return;
+
+    // Retrouve le dernier message utilisateur correspondant
+    let promptText = '';
+    for (let i = tutorIndex - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') {
+        promptText = messages[i].text;
+        break;
+      }
+    }
+
+    if (!promptText) {
+      promptText = messages[tutorIndex]?.text || '';
+    }
+
+    if (!promptText) return;
+
+    setIsLoading(true);
+    setRegeneratingIndex(tutorIndex);
+
+    try {
+      const session = getOrCreateChatSession();
+      let promptToSend = promptText;
+      if (activeMode === 'Examen') {
+        promptToSend = `[Cadre: Problème d'entraînement type Concours/Baccalauréat Terminale D/C Bénin] ${promptText}`;
+      } else if (activeMode === 'Synthèse') {
+        promptToSend = `[Cadre: Fiche de synthèse synthétique avec formules LaTeX et démonstrations requises] ${promptText}`;
+      }
+
+      const responseText = await session.sendMessage(promptToSend);
+      
+      setMessages((prev) => {
+        const next = [...prev];
+        next[tutorIndex] = {
+          role: 'model',
+          text: responseText,
+          timestamp: new Date()
+        };
+        return next;
+      });
+    } catch (err: any) {
+      console.error("Erreur relance Gemini:", err);
+      const friendlyError = formatGeminiError(err);
+      setMessages((prev) => {
+        const next = [...prev];
+        next[tutorIndex] = {
+          role: 'model',
+          text: friendlyError,
+          timestamp: new Date()
+        };
+        return next;
+      });
+    } finally {
+      setIsLoading(false);
+      setRegeneratingIndex(null);
     }
   };
 
@@ -413,8 +475,8 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
           <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl text-center space-y-6 animate-in fade-in duration-300">
             
             {/* Logo officiel Bénin */}
-            <div className="w-14 h-14 rounded-2xl bg-blue-600/15 border border-blue-500/25 text-blue-400 flex items-center justify-center shadow-lg shadow-blue-900/20">
-              <GraduationCap size={32} />
+            <div className="w-16 h-16 flex items-center justify-center">
+              <AppLogo size={60} className="w-15 h-15 shadow-xl shadow-blue-900/30 rounded-2xl" />
             </div>
 
             {/* Titre d'accueil */}
@@ -594,6 +656,25 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
                     {/* Action footer for assistant messages */}
                     {!isUser && (
                       <div className="flex flex-wrap items-center justify-end gap-2 pt-3 mt-4 border-t border-gray-800 text-xs text-gray-400 no-print">
+                        <button
+                          onClick={() => handleRegenerateMessage(index)}
+                          disabled={isLoading}
+                          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-colors border border-gray-700 disabled:opacity-50"
+                          title="Relancer et régénérer cette réponse du tuteur"
+                        >
+                          {regeneratingIndex === index ? (
+                            <>
+                              <Loader2 size={13} className="animate-spin text-amber-400" />
+                              <span className="text-amber-300">Relance en cours...</span>
+                            </>
+                          ) : (
+                            <>
+                              <RotateCcw size={13} className="text-amber-400" />
+                              <span>Relancer</span>
+                            </>
+                          )}
+                        </button>
+
                         <button
                           onClick={async () => {
                             const success = await copyMessageToClipboard(msg.text);

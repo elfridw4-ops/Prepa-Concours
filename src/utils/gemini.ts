@@ -2,19 +2,54 @@ import { GoogleGenAI, Type } from '@google/genai';
 import { getApiKey } from './storage';
 import { getUserProfile } from './userProfile';
 
-// Modèles officiels supportés par l'API Gemini
-export const MODEL_FLASH = 'gemini-2.5-flash';
-export const MODEL_PRO = 'gemini-2.5-pro';
+// Modèles officiels supportés par l'API Gemini (Génération 3)
+export const MODEL_FLASH = 'gemini-3.8-flash';
+export const MODEL_PRO = 'gemini-3.1-pro-preview';
+
+// Listes de secours automatiques en cas de variation de compte
+const FLASH_FALLBACKS = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-flash-latest'];
+const PRO_FALLBACKS = ['gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-flash-latest'];
 
 // Détermine l'identifiant exact du modèle Gemini selon le choix de l'utilisateur
 export const getActiveModelId = (modelName?: string): string => {
   const profile = getUserProfile();
-  const chosen = (modelName || profile.model || 'Gemini 2.5 Flash').toLowerCase();
+  const chosen = (modelName || profile.model || 'Gemini 3.8 Flash').toLowerCase();
   if (chosen.includes('pro') || chosen.includes('thinking')) {
     return MODEL_PRO;
   }
   return MODEL_FLASH;
 };
+
+// Exécute generateContent avec bascule automatique en cas de modèle indisponible (ex: 404)
+async function generateContentWithFallback(ai: GoogleGenAI, preferredModel: string, params: any) {
+  const baseCandidates = preferredModel.includes('pro') ? PRO_FALLBACKS : FLASH_FALLBACKS;
+  const candidates = Array.from(new Set([preferredModel, ...baseCandidates]));
+  let lastError: any = null;
+
+  for (const model of candidates) {
+    try {
+      const response = await ai.models.generateContent({
+        ...params,
+        model,
+      });
+      return response;
+    } catch (err: any) {
+      lastError = err;
+      const errMsg = err?.message || JSON.stringify(err);
+      if (
+        errMsg.includes('404') || 
+        errMsg.includes('not found') || 
+        errMsg.includes('no longer available') || 
+        errMsg.includes('NOT_FOUND')
+      ) {
+        console.warn(`Modèle ${model} indisponible (404), bascule vers le suivant...`);
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw lastError;
+}
 
 // Initialise le client Gemini. L'utilisateur fournit sa clé via l'interface, on la récupère du localStorage.
 // Architecture "Bring Your Own Key" (BYOK) client-side.
@@ -68,8 +103,7 @@ ${LATEX_RULES}
 Utilise un langage clair, adapté à un élève de Terminale. Formate avec des titres, sous-titres et listes en Markdown.`;
 
   const activeModel = getActiveModelId();
-  const response = await ai.models.generateContent({
-    model: activeModel,
+  const response = await generateContentWithFallback(ai, activeModel, {
     contents: prompt,
   });
   
@@ -102,8 +136,7 @@ ${LATEX_RULES}`;
 
   try {
     const activeModel = getActiveModelId();
-    const response = await ai.models.generateContent({
-      model: activeModel,
+    const response = await generateContentWithFallback(ai, activeModel, {
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -130,7 +163,7 @@ ${LATEX_RULES}`;
     return JSON.parse(response.text) as QCMQuestion[];
   } catch (error) {
     console.error("Erreur QCM:", error);
-    throw new Error("Impossible de générer le QCM. Veuillez vérifier votre clé API ou réessayer plus tard.");
+    throw error;
   }
 };
 
@@ -156,8 +189,7 @@ ${LATEX_RULES}
 Format général en Markdown.`;
 
   const activeModel = getActiveModelId();
-  const response = await ai.models.generateContent({
-    model: activeModel,
+  const response = await generateContentWithFallback(ai, activeModel, {
     contents: prompt,
   });
   
@@ -167,7 +199,6 @@ Format général en Markdown.`;
   if (parts.length >= 2) {
     return { exercise: parts[0].trim(), correction: parts[1].trim() };
   } else {
-    // Si le modèle n'a pas respecté le séparateur
     return { exercise: text, correction: "La correction a été intégrée dans le texte ci-dessus ou n'a pas pu être séparée correctement." };
   }
 };
@@ -206,6 +237,7 @@ export class ChatSession {
   private chat: any = null;
   private modelName?: string;
   private customInstructions?: string;
+  private currentModelIndex = 0;
 
   constructor(modelName?: string, customInstructions?: string) {
     this.modelName = modelName;
@@ -217,14 +249,21 @@ export class ChatSession {
     }
   }
 
-  private initChat() {
+  private getCandidateModels(): string[] {
+    const activeModel = getActiveModelId(this.modelName);
+    const fallbacks = activeModel.includes('pro') ? PRO_FALLBACKS : FLASH_FALLBACKS;
+    return Array.from(new Set([activeModel, ...fallbacks]));
+  }
+
+  private initChat(modelOverride?: string) {
     const ai = getGenAIClient();
     const profile = getUserProfile();
     const userDirectives = this.customInstructions || profile.customInstructions || '';
-    const activeModel = getActiveModelId(this.modelName);
+    const candidates = this.getCandidateModels();
+    const targetModel = modelOverride || candidates[this.currentModelIndex] || MODEL_FLASH;
 
     this.chat = ai.chats.create({
-      model: activeModel,
+      model: targetModel,
       config: {
         systemInstruction: `Tu es un assistant scientifique de haut niveau, expert, direct et rigoureux pour élèves de Terminale D/C et candidats aux concours d'entrée universitaires (Bénin / UEMOA).
 ${userDirectives ? `Directives personnalisées de l'utilisateur :\n${userDirectives}\n` : ''}
@@ -244,10 +283,34 @@ TU PEUX GÉNÉRER DES FICHES PDF : Si l'utilisateur te demande un résumé ou un
   }
 
   async sendMessage(message: string): Promise<string> {
-    if (!this.chat) {
-      this.initChat();
+    const candidates = this.getCandidateModels();
+    let lastError: any = null;
+
+    for (let i = this.currentModelIndex; i < candidates.length; i++) {
+      try {
+        if (!this.chat || this.currentModelIndex !== i) {
+          this.currentModelIndex = i;
+          this.initChat(candidates[i]);
+        }
+        const response = await this.chat.sendMessage({ message });
+        return response.text || "";
+      } catch (err: any) {
+        lastError = err;
+        const errMsg = err?.message || JSON.stringify(err);
+        if (
+          errMsg.includes('404') || 
+          errMsg.includes('not found') || 
+          errMsg.includes('no longer available') || 
+          errMsg.includes('NOT_FOUND')
+        ) {
+          console.warn(`Modèle ${candidates[i]} indisponible dans le chat, bascule automatique...`);
+          this.chat = null;
+          continue;
+        }
+        throw err;
+      }
     }
-    const response = await this.chat.sendMessage({ message });
-    return response.text || "";
+    throw lastError;
   }
 }
+

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Key, Trash2, XCircle, CheckCircle } from 'lucide-react';
 import { saveApiKey, getApiKey, clearApiKey, cleanApiKey } from '../utils/storage';
+import { AppLogo } from './AppLogo';
 
 export const ApiKeyScreen: React.FC<{ onKeySaved: () => void }> = ({ onKeySaved }) => {
   const existingKey = getApiKey() || '';
@@ -36,8 +37,8 @@ export const ApiKeyScreen: React.FC<{ onKeySaved: () => void }> = ({ onKeySaved 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 text-gray-100 p-4">
       <div className="max-w-md w-full bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
-        <div className="flex justify-center mb-6 text-blue-500">
-          <Key size={48} />
+        <div className="flex justify-center mb-6">
+          <AppLogo size={56} className="w-14 h-14 shadow-lg shadow-blue-900/30 rounded-2xl" />
         </div>
         <h1 className="text-2xl font-bold text-center mb-2 font-sans tracking-tight">
           {existingKey ? 'Configuration de votre Clé API' : 'Bienvenue, Futur Étudiant'}

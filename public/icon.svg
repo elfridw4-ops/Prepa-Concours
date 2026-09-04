@@ -1,58 +1,96 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
+    <!-- Background Gradient: Royal Midnight & Deep Slate -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="50%" stop-color="#1e293b" />
-      <stop offset="100%" stop-color="#0a0f1d" />
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="40%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
     </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+
+    <!-- Outer Ring Gradient: Electric Cyan to Deep Sapphire -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="50%" stop-color="#2563eb" />
-      <stop offset="100%" stop-color="#1d4ed8" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#6366f1" />
     </linearGradient>
+
+    <!-- Academic Gold Gradient -->
     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fde047" />
-      <stop offset="100%" stop-color="#eab308" />
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="30%" stop-color="#fbbf24" />
+      <stop offset="70%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
     </linearGradient>
+
+    <!-- Cyan Glow Filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <radialGradient id="centerGlow" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <!-- Background rounded rect -->
-  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
-  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="url(#accentGrad)" stroke-width="6" opacity="0.4" />
+  <!-- App Rounded Shield / Icon Container -->
+  <rect width="512" height="512" rx="120" fill="url(#bgGrad)" />
+  <circle cx="256" cy="240" r="210" fill="url(#centerGlow)" />
+  <rect width="496" height="496" x="8" y="8" rx="112" fill="none" stroke="url(#ringGrad)" stroke-width="6" opacity="0.45" />
 
-  <!-- Subtle grid pattern lines -->
-  <g opacity="0.12" stroke="#38bdf8" stroke-width="2">
-    <line x1="80" y1="180" x2="432" y2="180" />
-    <line x1="80" y1="256" x2="432" y2="256" />
-    <line x1="80" y1="332" x2="432" y2="332" />
-    <line x1="180" y1="80" x2="180" y2="432" />
-    <line x1="256" y1="80" x2="256" y2="432" />
-    <line x1="332" y1="80" x2="332" y2="432" />
+  <!-- Quantum / Atomic Orbits (Physics Track) -->
+  <g transform="translate(256, 235)">
+    <!-- Orbit 1 -->
+    <ellipse cx="0" cy="0" rx="175" ry="68" transform="rotate(-30)" fill="none" stroke="url(#ringGrad)" stroke-width="4.5" stroke-dasharray="14 7" opacity="0.65" />
+    <!-- Orbit 2 -->
+    <ellipse cx="0" cy="0" rx="175" ry="68" transform="rotate(30)" fill="none" stroke="#93c5fd" stroke-width="3" opacity="0.45" />
+
+    <!-- Electron Beacons -->
+    <circle cx="-135" cy="-60" r="8" fill="#38bdf8" filter="url(#softGlow)" />
+    <circle cx="140" cy="65" r="9" fill="#fbbf24" filter="url(#softGlow)" />
   </g>
 
-  <!-- Central Graduation Cap + Science Symbol -->
-  <g transform="translate(0, -10)">
-    <!-- Cap Diamond Base -->
-    <polygon points="256,120 420,195 256,270 92,195" fill="url(#accentGrad)" />
-    <!-- Cap Under-Shadow -->
-    <polygon points="256,270 400,204 400,214 256,280 112,214 112,204" fill="#1e3a8a" opacity="0.7" />
+  <!-- Open Textbook of Knowledge (Academic Foundation) -->
+  <g transform="translate(256, 350)">
+    <path 
+      d="M -130,-20 C -70,-45 -25,-40 0,-25 C 25,-40 70,-45 130,-20 L 130,22 C 70,-3 25,2 0,17 C -25,2 -70,-3 -130,22 Z" 
+      fill="#1e293b" 
+      stroke="#60a5fa" 
+      stroke-width="6" 
+      stroke-linejoin="round" 
+    />
+    <line x1="0" y1="-25" x2="0" y2="17" stroke="#93c5fd" stroke-width="5" stroke-linecap="round" />
+    
+    <!-- Subtle page line engravings -->
+    <path d="M -110,-6 C -70,-24 -35,-20 -15,-10" stroke="#475569" stroke-width="3" stroke-linecap="round" fill="none" />
+    <path d="M 110,-6 C 70,-24 35,-20 15,-10" stroke="#475569" stroke-width="3" stroke-linecap="round" fill="none" />
+  </g>
+
+  <!-- Central Academic Graduation Mortarboard & Golden Crown -->
+  <g transform="translate(256, 175)">
+    <!-- Cap Diamond Apex -->
+    <polygon points="0,-75 140,-15 0,45 -140,-15" fill="url(#goldGrad)" filter="url(#softGlow)" />
+    <polygon points="0,-65 125,-15 0,35 -125,-15" fill="#fef08a" opacity="0.4" />
     
     <!-- Skullcap Base -->
-    <path d="M160,230 L160,300 C160,345 352,345 352,300 L352,230 Z" fill="#1e293b" stroke="url(#accentGrad)" stroke-width="6" />
+    <path d="M -75,20 L -75,65 C -75,100 75,100 75,65 L 75,20 Z" fill="#0f172a" stroke="url(#goldGrad)" stroke-width="7" />
     
-    <!-- Tassel String and Pendant -->
-    <path d="M370,205 C375,240 385,280 395,305" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-linecap="round" />
-    <circle cx="397" cy="316" r="10" fill="url(#goldGrad)" />
+    <!-- Golden Tassel & Pendant -->
+    <path d="M 95,5 C 110,40 120,85 128,110" fill="none" stroke="url(#goldGrad)" stroke-width="6.5" stroke-linecap="round" />
+    <circle cx="129" cy="118" r="12" fill="url(#goldGrad)" filter="url(#softGlow)" />
 
-    <!-- Mathematical Sigma / Integral / Science Icon Badge -->
-    <g transform="translate(256, 385) scale(1.1)">
-      <!-- Circle container -->
-      <circle cx="0" cy="0" r="44" fill="#0f172a" stroke="url(#accentGrad)" stroke-width="4" />
-      <!-- Stylized Math Sum / Sigma Symbol -->
-      <path d="M -18,-18 L 18,-18 L -4,0 L 18,18 L -18,18" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Center Torch Flame / Knowledge Spark -->
+    <g transform="translate(0, -15)">
+      <!-- Math Sigma Core -->
+      <path d="M -30,-22 L 25,-22 L -8,0 L 25,22 L -30,22" fill="none" stroke="#0f172a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M -30,-22 L 25,-22 L -8,0 L 25,22 L -30,22" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
     </g>
   </g>
 
-  <!-- Bottom Brand Text -->
-  <text x="256" y="475" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="4">PRÉPA CONCOURS</text>
+  <!-- Bottom National/Curriculum Badge Text -->
+  <g transform="translate(256, 465)">
+    <text text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" letter-spacing="6">PRÉPA CONCOURS</text>
+    <text y="-28" text-anchor="middle" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="3">RÉPUBLIQUE DU BÉNIN</text>
+  </g>
 </svg>
