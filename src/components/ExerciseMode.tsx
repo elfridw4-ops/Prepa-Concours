@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
-import { generateExercise } from '../utils/gemini';
+import { generateExercise, formatGeminiError } from '../utils/gemini';
 import { Chapter } from '../data/chapters';
 import { X, Loader2, Eye, Download, Check } from 'lucide-react';
 import { jsPDF } from 'jspdf';
@@ -30,8 +30,8 @@ export const ExerciseMode: React.FC<ExerciseModeProps> = ({ chapter, onClose }) 
         const data = await generateExercise(chapter.subject, chapter.title);
         setExercise(data.exercise);
         setCorrection(data.correction);
-      } catch (err) {
-        setError('Impossible de générer l\'exercice.');
+      } catch (err: any) {
+        setError(formatGeminiError(err));
       } finally {
         setLoading(false);
       }

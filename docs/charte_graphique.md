@@ -382,3 +382,44 @@ Voici la configuration des variables globales à copier-coller dans votre fichie
   --color-blue-600: #0055ff;
 }
 ```
+
+---
+
+## 16. Système d'Interface "Claude Private Studio" (Mise à Jour Refonte 2026)
+
+Fidèle aux spécifications de refonte privée (utilisateurs restreints, suppression intégrale de tout marketing), l'application adopte l'architecture de travail minimaliste et hautement productive inspirée de l'interface Claude.
+
+### A. Palette de Couleurs "Anthracite & Terracotta"
+| Rôle | Valeur HEX | Usage |
+| :--- | :--- | :--- |
+| **Canvas Profond** | `#141416` | Fond d'écran global de l'espace de travail et sidebar |
+| **Surface Principale** | `#1e1e21` / `#202024` | Boîte de prompt centrale, cartes d'échange |
+| **Bordure Subtile** | `#2e2e33` / `#28282d` | Séparateurs nets sans halo |
+| **Terracotta Solaire** | `#d97757` | Astérisque central "On repart, Hora" |
+| **Terracotta Action** | `#cc7052` | Bouton d'envoi, liens de mise à niveau |
+| **Sauge Trèfle** | `#98aa88` | Avatar utilisateur vert sauge avec icône trèfle |
+
+### B. Typographie Sérif Éditoriale
+- **Polices Sérif :** `Newsreader`, `Lora`, `Georgia` (appliquées au titre "Claude" et au message d'accueil "On repart, Hora").
+- **Police UI / Corps :** `DM Sans`, `system-ui`.
+- **Police Mathématique :** KaTeX Computer Modern.
+
+### C. Composants Majeurs
+1. **Sidebar Latérale :**
+   - Marque sérif italique "Claude"
+   - Bouton "+ Nouveau" ergonomique
+   - Arborescence rétractable (Prompt Gabarit, TECH, Design, Programme Terminale D/C)
+   - Sections "Épinglé" et "Discussions et tâches"
+   - Barre de profil inférieure avec trèfle, nom dynamique "Hora · Free", recherche et repliement.
+2. **Boîte de Prompt Centrale :**
+   - Zone de texte avec placeholder "Comment puis-je vous aider ?"
+   - Contrôle segmenté `[ Chat ] [ Cowork ]`
+   - Sélecteur de modèle (`Sonnet 5 Extra`, `Gemini 3.5 Flash`)
+   - Dictée vocale continue avec animation d'impulsion microphone
+   - Menu d'insertion rapide (`+`) de gabarits scientifiques et immersifs.
+3. **Modal Paramètres (Ctrl ⇧ ,) :**
+   - Navigation catégorisée (Général, Compte, Confidentialité, Claude Code)
+   - Éditeur de profil et d'avatar trèfle
+   - Champ d'instructions personnalisées persistées dans le localStorage et injectées dans le moteur IA
+   - Sélecteur d'apparence (Système, Clair, Sombre).
+

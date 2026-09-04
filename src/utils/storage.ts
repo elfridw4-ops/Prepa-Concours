@@ -26,10 +26,13 @@ export const saveApiKey = (key: string) => {
   localStorage.setItem(API_KEY_STORAGE_KEY, cleanApiKey(key));
 };
 
-// Récupère la clé API depuis le localStorage
+// Récupère la clé API depuis le localStorage ou les variables d'environnement
 export const getApiKey = (): string | null => {
   const key = localStorage.getItem(API_KEY_STORAGE_KEY);
-  return key ? cleanApiKey(key) : null;
+  if (key) return cleanApiKey(key);
+  const envKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
+  if (envKey) return cleanApiKey(envKey);
+  return null;
 };
 
 // Supprime la clé API
@@ -73,4 +76,9 @@ export const updateChapterScore = (chapterId: string, score: number) => {
     else if (progress[chapterId].status === 'Non commencé') progress[chapterId].status = 'En cours';
   }
   localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+};
+
+// Réinitialise l'ensemble de la progression
+export const resetProgress = () => {
+  localStorage.removeItem(PROGRESS_STORAGE_KEY);
 };

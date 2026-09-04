@@ -63,6 +63,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <p className="text-sm sm:text-base text-gray-400 font-normal leading-relaxed">
             Un outil épuré et autonome conçu sur mesure pour s'entraîner sur le syllabus officiel de Terminale D et C en Mathématiques et Physique, soutenu par un tuteur d'intelligence artificielle hautement calibré.
           </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <button
+              onClick={onStartRevision}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm transition-all shadow-lg shadow-blue-900/30 hover:shadow-blue-600/40 cursor-pointer"
+            >
+              <BookOpen size={16} />
+              <span>Accéder au Programme</span>
+              <ArrowRight size={15} />
+            </button>
+            <button
+              onClick={onOpenChat}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 hover:text-white font-medium text-sm transition-colors border border-gray-700 cursor-pointer"
+            >
+              <Brain size={16} className="text-blue-400" />
+              <span>Consulter le Tuteur IA</span>
+            </button>
+          </div>
         </div>
       </section>
 

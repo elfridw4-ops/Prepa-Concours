@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
-import { generateQCM, QCMQuestion } from '../utils/gemini';
+import { generateQCM, QCMQuestion, formatGeminiError } from '../utils/gemini';
 import { Chapter } from '../data/chapters';
 import { X, Loader2, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { updateChapterScore } from '../utils/storage';
@@ -31,7 +31,7 @@ export const QCMMode: React.FC<QCMModeProps> = ({ chapter, onClose }) => {
         const qcmData = await generateQCM(chapter.subject, chapter.title);
         setQuestions(qcmData);
       } catch (err: any) {
-        setError(err.message || 'Impossible de générer le QCM.');
+        setError(formatGeminiError(err));
       } finally {
         setLoading(false);
       }

@@ -10,7 +10,6 @@ import { Dashboard } from './components/Dashboard';
 import { RevisionPanel } from './components/RevisionPanel';
 import { QCMMode } from './components/QCMMode';
 import { ExerciseMode } from './components/ExerciseMode';
-import { ChatBot } from './components/ChatBot';
 import { chapters } from './data/chapters';
 import { UpdateNotification } from './components/pwa/UpdateNotification';
 import { InstallPrompt } from './components/pwa/InstallPrompt';
@@ -19,7 +18,6 @@ interface HistoryState {
   section: 'accueil' | 'programme';
   mode: 'revise' | 'qcm' | 'exercise' | null;
   chapterId: string | null;
-  isChatOpen: boolean;
   isRootShield?: boolean;
 }
 
@@ -28,7 +26,6 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<'accueil' | 'programme'>('accueil');
   const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
   const [activeMode, setActiveMode] = useState<'revise' | 'qcm' | 'exercise' | null>(null);
-  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [showExitConfirm, setShowExitConfirm] = useState<boolean>(false);
 
   const blockPushRef = useRef<boolean>(false);
@@ -50,7 +47,6 @@ export default function App() {
       section: activeSection,
       mode: activeMode,
       chapterId: activeChapterId,
-      isChatOpen: isChatOpen
     };
     window.history.pushState(home, '');
 
@@ -73,7 +69,6 @@ export default function App() {
             section: 'accueil',
             mode: null,
             chapterId: null,
-            isChatOpen: false
           };
           blockPushRef.current = true;
           window.history.pushState(baseline, '');
@@ -87,7 +82,6 @@ export default function App() {
       setActiveSection(hState.section);
       setActiveMode(hState.mode);
       setActiveChapterId(hState.chapterId);
-      setIsChatOpen(hState.isChatOpen);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -107,7 +101,6 @@ export default function App() {
       section: activeSection,
       mode: activeMode,
       chapterId: activeChapterId,
-      isChatOpen: isChatOpen
     };
 
     const hState = window.history.state as HistoryState | null;
@@ -116,12 +109,11 @@ export default function App() {
       hState.isRootShield ||
       hState.section !== currentState.section ||
       hState.mode !== currentState.mode ||
-      hState.chapterId !== currentState.chapterId ||
-      hState.isChatOpen !== currentState.isChatOpen
+      hState.chapterId !== currentState.chapterId
     ) {
       window.history.pushState(currentState, '');
     }
-  }, [activeSection, activeMode, activeChapterId, isChatOpen, hasKey]);
+  }, [activeSection, activeMode, activeChapterId, hasKey]);
 
   // Décompte d'invisibilité automatique pour le Toast de sortie
   useEffect(() => {
@@ -156,22 +148,15 @@ export default function App() {
     }
   };
 
-  const handleOpenChat = () => {
-    setIsChatOpen(true);
-  };
-
-  const handleCloseChat = () => {
-    const hState = window.history.state as HistoryState | null;
-    if (hState && hState.isChatOpen) {
-      window.history.back();
-    } else {
-      setIsChatOpen(false);
-    }
-  };
-
   // Si pas de clé, on affiche l'écran de saisie
   if (!hasKey) {
-    return <ApiKeyScreen onKeySaved={handleKeySaved} />;
+    return (
+      <>
+        <ApiKeyScreen onKeySaved={handleKeySaved} />
+        <UpdateNotification />
+        <InstallPrompt />
+      </>
+    );
   }
 
   // Trouve le chapitre actif
@@ -198,9 +183,6 @@ export default function App() {
       {activeChapter && activeMode === 'exercise' && (
         <ExerciseMode chapter={activeChapter} onClose={handleCloseModal} />
       )}
-
-      {/* Chatbot global avec contrôle d'historique intégré */}
-      <ChatBot isOpen={isChatOpen} onOpen={handleOpenChat} onClose={handleCloseChat} />
 
       {/* Notification de confirmation de sortie pour Android / PWA */}
       {showExitConfirm && (

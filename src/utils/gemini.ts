@@ -1,14 +1,26 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { getApiKey } from './storage';
+import { getUserProfile } from './userProfile';
 
-// Constante pour le modèle standard (plus rapide pour les QCM et révisions)
-const STANDARD_MODEL = 'gemini-3.5-flash';
+// Modèles officiels supportés par l'API Gemini
+export const MODEL_FLASH = 'gemini-2.5-flash';
+export const MODEL_PRO = 'gemini-2.5-pro';
+
+// Détermine l'identifiant exact du modèle Gemini selon le choix de l'utilisateur
+export const getActiveModelId = (modelName?: string): string => {
+  const profile = getUserProfile();
+  const chosen = (modelName || profile.model || 'Gemini 2.5 Flash').toLowerCase();
+  if (chosen.includes('pro') || chosen.includes('thinking')) {
+    return MODEL_PRO;
+  }
+  return MODEL_FLASH;
+};
 
 // Initialise le client Gemini. L'utilisateur fournit sa clé via l'interface, on la récupère du localStorage.
-// ATTENTION : Cette architecture "Bring Your Own Key" (BYOK) est exceptionnelle pour ce projet client-side only.
+// Architecture "Bring Your Own Key" (BYOK) client-side.
 const getGenAIClient = () => {
   const apiKey = getApiKey();
-  if (!apiKey) throw new Error("Clé API introuvable.");
+  if (!apiKey) throw new Error("Clé API introuvable. Veuillez renseigner votre clé API dans les paramètres.");
   return new GoogleGenAI({ apiKey });
 };
 
@@ -55,8 +67,9 @@ ${LATEX_RULES}
 
 Utilise un langage clair, adapté à un élève de Terminale. Formate avec des titres, sous-titres et listes en Markdown.`;
 
+  const activeModel = getActiveModelId();
   const response = await ai.models.generateContent({
-    model: STANDARD_MODEL,
+    model: activeModel,
     contents: prompt,
   });
   
@@ -88,8 +101,9 @@ Pour chaque question :
 ${LATEX_RULES}`;
 
   try {
+    const activeModel = getActiveModelId();
     const response = await ai.models.generateContent({
-      model: STANDARD_MODEL,
+      model: activeModel,
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -141,8 +155,9 @@ ${LATEX_RULES}
 
 Format général en Markdown.`;
 
+  const activeModel = getActiveModelId();
   const response = await ai.models.generateContent({
-    model: STANDARD_MODEL,
+    model: activeModel,
     contents: prompt,
   });
   
@@ -157,39 +172,81 @@ Format général en Markdown.`;
   }
 };
 
+// Traduit les erreurs de l'API Gemini en messages clairs pour l'élève
+export const formatGeminiError = (error: any): string => {
+  if (!error) return "Une erreur inattendue est survenue lors de la communication avec l'assistant IA.";
+  
+  const msg = typeof error === 'string' ? error : (error.message || JSON.stringify(error));
+  
+  if (msg.includes('Clé API introuvable') || msg.includes('API key not found')) {
+    return "Clé API Gemini introuvable. Veuillez renseigner votre clé API dans les Paramètres (icône roue crantée).";
+  }
+  
+  if (msg.includes('API_KEY_INVALID') || msg.includes('API key not valid') || (msg.includes('400') && msg.includes('API key'))) {
+    return "Votre clé API Google Gemini est invalide. Rendez-vous dans les Paramètres pour vérifier ou saisir une nouvelle clé valide.";
+  }
+  
+  if (msg.includes('RESOURCE_EXHAUSTED') || msg.includes('429') || msg.includes('quota') || msg.includes('Quota exceeded')) {
+    return "Le quota gratuit de requêtes de votre clé Gemini a été temporairement dépassé (Erreur 429). Patientez 1 à 2 minutes ou utilisez une autre clé API.";
+  }
+
+  if (msg.includes('PERMISSION_DENIED') || msg.includes('403')) {
+    return "Accès refusé par Google (Erreur 403). Assurez-vous que votre clé API est bien active sur Google AI Studio.";
+  }
+
+  if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('network') || msg.includes('Load failed')) {
+    return "Impossible de joindre les serveurs de Google (Erreur réseau ou extension bloqueuse de requêtes). Vérifiez votre connexion Internet.";
+  }
+
+  return `Impossible de joindre le service d'IA : ${msg.slice(0, 160)}`;
+};
+
 // Classe utilitaire pour gérer un chat continu
 export class ChatSession {
-  private chat;
+  private chat: any = null;
+  private modelName?: string;
+  private customInstructions?: string;
 
-  constructor() {
+  constructor(modelName?: string, customInstructions?: string) {
+    this.modelName = modelName;
+    this.customInstructions = customInstructions;
+    try {
+      this.initChat();
+    } catch (e) {
+      console.warn("Initialisation différée du chat (en attente de clé API):", e);
+    }
+  }
+
+  private initChat() {
     const ai = getGenAIClient();
-    this.chat = ai.chats.create({
-      model: STANDARD_MODEL,
-      config: {
-        systemInstruction: `Tu es un assistant pédagogique expert en Mathématiques et Physique pour les élèves de Terminale D et C au Bénin et en Afrique.
-Une plateforme intelligente et ancrée dans le contexte local africain. 
-Tu aides l'élève à comprendre les concepts, corriger ses erreurs, et se préparer à son test d'entrée.
-Tu réponds toujours en français, avec des exemples concrets du programme et des réalités africaines.
-IMPORTANT : Ne sois pas formel. Ne perds pas de temps avec des salutations ou des formules de politesse du type "Bonjour", "Comment puis-je vous aider", "Voici la réponse", etc. Va directement droit au but et donne la réponse ou l'explication directement.
+    const profile = getUserProfile();
+    const userDirectives = this.customInstructions || profile.customInstructions || '';
+    const activeModel = getActiveModelId(this.modelName);
 
-Si l'étudiant te pose une question de Mathématiques ou de Physique, ou te demande de résoudre un exercice :
-- Montre TOUTES les étapes en détail.
-- Pour chaque étape : Explique ce qui est fait ET pourquoi.
+    this.chat = ai.chats.create({
+      model: activeModel,
+      config: {
+        systemInstruction: `Tu es un assistant scientifique de haut niveau, expert, direct et rigoureux pour élèves de Terminale D/C et candidats aux concours d'entrée universitaires (Bénin / UEMOA).
+${userDirectives ? `Directives personnalisées de l'utilisateur :\n${userDirectives}\n` : ''}
+Règles mathématiques et pédagogiques :
+- Montre TOUTES les étapes logiques et de calculs avec rigueur et précision.
+- Pour chaque étape : Explique ce qui est fait ET pourquoi sans verbiage superflu.
 - Ne saute jamais d'étapes.
 - Utilise une structure claire : Étape 1, Étape 2, Étape 3, etc.
 - Ajoute une étape de vérification finale.
-- Utilise un langage simple d'abord, puis des explications plus avancées.
+- Ne perds pas de temps avec des civilités inutiles ou des formules de politesse répétitives ("bonjour", "comment puis-je vous aider"). Va directement droit au but scientifique.
 
 ${LATEX_RULES}
 
-TU PEUX GÉNÉRER DES FICHES PDF : Si l'utilisateur te demande un résumé ou un document PDF de tes explications, informe-le qu'il peut cliquer sur le bouton "Télécharger PDF" qui apparaît directement en bas de chacune de tes réponses dans l'interface de chat pour obtenir une fiche de révision haute qualité.
-
-Tu ne traites pas de sujets hors mathématiques et physique Terminale D/C.`
+TU PEUX GÉNÉRER DES FICHES PDF : Si l'utilisateur te demande un résumé ou un document PDF de tes explications, informe-le qu'il peut cliquer sur le bouton "Télécharger PDF" qui apparaît directement en bas de chacune de tes réponses pour obtenir une fiche de révision haute qualité.`
       }
     });
   }
 
   async sendMessage(message: string): Promise<string> {
+    if (!this.chat) {
+      this.initChat();
+    }
     const response = await this.chat.sendMessage({ message });
     return response.text || "";
   }
