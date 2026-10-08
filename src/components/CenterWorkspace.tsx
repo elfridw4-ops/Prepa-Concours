@@ -791,6 +791,21 @@ export const CenterWorkspace: React.FC<CenterWorkspaceProps> = ({
 
       </main>
 
+      {/* Footer de l'espace de travail */}
+      <footer className="w-full py-2 px-4 bg-gray-950/90 border-t border-gray-900 text-center text-xs text-gray-500 flex-shrink-0 flex items-center justify-center gap-1.5">
+        <span>Prépa Concours Bénin</span>
+        <span className="text-gray-700">•</span>
+        <span>Développé par</span>
+        <a
+          href="https://horaciochinkoun.site"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-300 hover:text-blue-400 font-medium underline underline-offset-2 transition-colors"
+        >
+          Horacio CHINKOUN
+        </a>
+      </footer>
+
     </div>
   );
 };

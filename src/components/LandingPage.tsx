@@ -139,8 +139,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
 
       {/* METRIC COMPACT CARD */}
-      <footer className="text-center py-6 border-t border-gray-900 text-gray-600 text-[10px] tracking-wide uppercase">
-        Prépa Concours Bénin • Plateforme d'auto-formation
+      <footer className="text-center py-6 border-t border-gray-900 text-gray-500 text-xs tracking-wide">
+        <span>Prépa Concours Bénin • Développé par </span>
+        <a 
+          href="https://horaciochinkoun.site" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-blue-400 hover:text-blue-300 font-semibold underline underline-offset-2 transition-colors"
+        >
+          Horacio CHINKOUN
+        </a>
       </footer>
 
     </div>

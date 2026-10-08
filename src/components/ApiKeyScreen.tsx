@@ -100,15 +100,29 @@ export const ApiKeyScreen: React.FC<{ onKeySaved: () => void }> = ({ onKeySaved 
           </div>
         </form>
 
-        <div className="mt-6 text-center">
-          <a
-            href="https://aistudio.google.com/app/apikey"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-blue-400 hover:text-blue-300 underline"
-          >
-            Obtenir une clé API gratuite dans Google AI Studio
-          </a>
+        <div className="mt-6 text-center space-y-3">
+          <div>
+            <a
+              href="https://aistudio.google.com/app/apikey"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-blue-400 hover:text-blue-300 underline"
+            >
+              Obtenir une clé API gratuite dans Google AI Studio
+            </a>
+          </div>
+
+          <div className="pt-3 border-t border-gray-800/80 text-xs text-gray-500">
+            Développé par{' '}
+            <a
+              href="https://horaciochinkoun.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-300 hover:text-blue-400 font-medium underline underline-offset-2 transition-colors"
+            >
+              Horacio CHINKOUN
+            </a>
+          </div>
         </div>
       </div>
     </div>

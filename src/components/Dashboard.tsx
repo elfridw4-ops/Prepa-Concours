@@ -244,6 +244,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
               )}
 
+              {/* Footer Curriculum */}
+              <footer className="text-center py-8 border-t border-gray-900 text-xs text-gray-500">
+                <span>Prépa Concours Bénin • Développé par </span>
+                <a
+                  href="https://horaciochinkoun.site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-blue-400 font-medium underline underline-offset-2 transition-colors"
+                >
+                  Horacio CHINKOUN
+                </a>
+              </footer>
+
             </main>
           </div>
         ) : (

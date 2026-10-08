@@ -433,6 +433,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       </div>
 
+      {/* Footer développeur */}
+      <div className="px-3 py-2 text-center text-[11px] text-gray-500 border-t border-gray-900 bg-gray-950/70">
+        Développé par{' '}
+        <a
+          href="https://horaciochinkoun.site"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-400 hover:text-blue-400 font-medium underline underline-offset-2 transition-colors"
+        >
+          Horacio CHINKOUN
+        </a>
+      </div>
+
     </aside>
   );
 };
